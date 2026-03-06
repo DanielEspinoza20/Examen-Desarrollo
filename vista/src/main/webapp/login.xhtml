@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Inicio de Sesión - SAUAP</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #4e73df, #1cc88a);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            width: 400px;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #4e73df;
+            font-weight: bold;
+        }
+
+        .ui-outputlabel {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .full-width {
+            width: 100% !important;
+            margin-bottom: 20px !important;
+        }
+
+        .login-button {
+            width: 100%;
+            background-color: #4e73df !important;
+            border: none !important;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="login-container">
+        <h:form id="loginForm">
+            <p:growl id="mensajes" showDetail="true" />
+
+            <div class="login-title">Inicia Sesión en SAUAP</div>
+
+            <p:outputLabel for="username" value="Nombre de Usuario"/>
+            <p:inputText id="username"
+                         value="#{loginBean.username}"
+                         required="true"
+                         requiredMessage="El usuario es obligatorio"
+                         styleClass="full-width" />
+
+            <p:outputLabel for="password" value="Contraseña"/>
+            <p:password id="password"
+                        value="#{loginBean.password}"
+                        required="true"
+                        requiredMessage="La contraseña es obligatoria"
+                        styleClass="full-width"
+                        feedback="false" />
+
+            <p:commandButton value="Ingresar al Sistema"
+                             action="#{loginBean.login}"
+                             update="mensajes"
+                             ajax="false"
+                             styleClass="login-button" />
+        </h:form>
+    </div>
+</h:body>
+</html>

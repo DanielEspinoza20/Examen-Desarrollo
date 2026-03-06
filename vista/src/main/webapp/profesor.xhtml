@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <title>Profesor - SAUAP</title>
+</h:head>
+<f:metadata>
+    <f:viewAction action="#{loginBean.verificarProfesor}" />
+</f:metadata>
+<h:body>
+    <h1>PANEL DE PROFESOR</h1>
+    <p>Bienvenido, <b>#{loginBean.usuario.username}</b>.</p>
+    <p>Has entrado con el rol de: PROFESOR</p>
+
+    <h:form>
+        <h:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" />
+    </h:form>
+</h:body>
+</html>
