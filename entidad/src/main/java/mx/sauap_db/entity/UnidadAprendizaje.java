@@ -33,6 +33,15 @@ public class UnidadAprendizaje {
     @Column(name = "horas_laboratorio", nullable = false)
     private Integer horasLaboratorio;
 
+    public UnidadAprendizaje() {}
+
+    public UnidadAprendizaje(String nombreUnidad, int horasClase, int horasTaller, int horasLaboratorio) {
+        this.nombreUnidad = nombreUnidad;
+        this.horasClase = horasClase;
+        this.horasTaller = horasTaller;
+        this.horasLaboratorio = horasLaboratorio;
+    }
+
     public Integer getId() {
         return id;
     }

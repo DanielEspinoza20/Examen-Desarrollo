@@ -26,11 +26,11 @@ public class LoginBean implements Serializable {
             System.out.println("LOG: Usuario encontrado. Rol en BD: " + usuario.getRol());
 
             // Redirección para Administrador
-            if ("ADMINISTRADOR".equalsIgnoreCase(usuario.getRol())) {
+            if ("ADMINISTRADOR".equalsIgnoreCase(usuario.getRol())) { //ignorecase no importan las mayus o minus
                 return "admin?faces-redirect=true";
             }
             // Redirección para Profesor
-            else if ("PROFESOR".equalsIgnoreCase(usuario.getRol())) {
+            else if ("PROFESOR".equalsIgnoreCase(usuario.getRol())) { //ignorecase
                 return "profesor?faces-redirect=true";
             }
         } else {
@@ -42,7 +42,7 @@ public class LoginBean implements Serializable {
 
     // Asegúrate de tener este métodopara proteger la página de profesor
     public void verificarProfesor() {
-        if (usuario == null || !"PROFESOR".equals(usuario.getRol())) {
+        if (usuario == null || !"PROFESOR".equalsIgnoreCase(usuario.getRol())) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
             } catch (Exception e) {
