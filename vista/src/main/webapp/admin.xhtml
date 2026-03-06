@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html">
+<h:head>
+    <title>Admin - SAUAP</title>
+</h:head>
+<h:body>
+    <h1>Panel de Administración</h1>
+    <p>Bienvenido, <b>#{loginBean.usuario.username}</b>. Has entrado como #{loginBean.usuario.rol}.</p>
+    <h:form>
+        <h:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" />
+    </h:form>
+</h:body>
+</html>

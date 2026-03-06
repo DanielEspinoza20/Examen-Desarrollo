@@ -40,7 +40,6 @@ public class LoginBean implements Serializable {
         return null;
     }
 
-    // Asegúrate de tener este método para proteger la página de profesor
     public void verificarProfesor() {
         if (usuario == null || !"PROFESOR".equals(usuario.getRol())) {
             try {
@@ -56,9 +55,19 @@ public class LoginBean implements Serializable {
         return "login?faces-redirect=true";
     }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-    public Usuario getUsuario() { return usuario; }
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public Usuario getUsuario() {
+        return usuario;
+    }
 }
