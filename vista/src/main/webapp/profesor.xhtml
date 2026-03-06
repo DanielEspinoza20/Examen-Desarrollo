@@ -4,18 +4,227 @@
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core">
 <h:head>
-    <title>Profesor - SAUAP</title>
-</h:head>
-<f:metadata>
-    <f:viewAction action="#{loginBean.verificarProfesor}" />
-</f:metadata>
-<h:body>
-    <h1>PANEL DE PROFESOR</h1>
-    <p>Bienvenido, <b>#{loginBean.usuario.username}</b>.</p>
-    <p>Has entrado con el rol de: PROFESOR</p>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenido Profesor - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+         {
+            box-sizing: border-box; margin: 0; padding: 0;
+        }
 
-    <h:form>
-        <h:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" />
-    </h:form>
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 32px 24px;
+            gap: 24px;
+        }
+
+        .title-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+        .title-card h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1e4d8c;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .title-card p {
+            color: #555;
+            margin-top: 5px;
+            font-size: 15px;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 900px;
+            max-height: 480px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead tr {
+            background: #2e6db4;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        thead th {
+            padding: 12px 14px;
+            font-weight: 600;
+            text-align: left;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        tbody tr:nth-child(odd)  {
+            background: #dde6f0;
+        }
+        tbody tr:nth-child(even) {
+            background: #edf2f8;
+        }
+
+        tbody td {
+            padding: 10px 14px;
+            color: #333;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.6);
+            height: 45px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .tag-clase  {
+            background: #c8e6c9; color: #2e7d32;
+        }
+        .tag-taller {
+            background: #fff9c4; color: #f57f17;
+        }
+        .tag-lab    {
+            background: #fce4ec; color: #c62828;
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #edf2f8;
+        }
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: #2e6db4; border-radius: 4px;
+        }
+
+        .footer {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .btn-salir {
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 44px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-salir:hover {
+            background: linear-gradient(135deg, #43a363, #2e8a4c);
+        }
+        .btn-salir:active { transform: scale(0.97); }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="title-card">
+        <h1>BIENVENIDO – PROFESOR</h1>
+        <p>Hola, <b>#{loginBean.usuario.username}</b>. Este es tu horario actual.</p>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>Horas</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>7:00am</td>
+                <td><span class="tag tag-clase">Clase 1</span></td>
+                <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td>8:00am</td>
+                <td><span class="tag tag-clase">Clase 1</span></td>
+                <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td>9:00am</td>
+                <td><span class="tag tag-clase">Clase 1</span></td>
+                <td></td>
+                <td><span class="tag tag-taller">Taller</span></td>
+                <td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td>10:00am</td>
+                <td><span class="tag tag-clase">Clase 1</span></td>
+                <td></td>
+                <td><span class="tag tag-taller">Taller</span></td>
+                <td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td>11:00am</td>
+                <td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td>12:00pm</td>
+                <td></td><td></td><td></td><td></td>
+                <td><span class="tag tag-lab">Lab</span></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>1:00pm</td>
+                <td></td><td></td><td></td><td></td>
+                <td><span class="tag tag-lab">Lab</span></td>
+                <td></td>
+            </tr>
+            <tr><td>2:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>4:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>5:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>6:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>7:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>8:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>9:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>10:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <h:form>
+            <h:commandButton value="Salir"
+                             action="#{loginBean.logout}"
+                             styleClass="btn-salir" />
+        </h:form>
+    </div>
 </h:body>
 </html>
