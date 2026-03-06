@@ -23,7 +23,7 @@ public class Usuario {
     private String password;
 
     @NotNull
-    @Lob
+    //@Lob
     @Column(name = "rol", nullable = false)
     private String rol;
 

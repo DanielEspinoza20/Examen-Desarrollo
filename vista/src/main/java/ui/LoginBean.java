@@ -50,6 +50,15 @@ public class LoginBean implements Serializable {
             }
         }
     }
+    public void verificarAdmin() {
+        if (usuario == null || !"ADMINISTRADOR".equalsIgnoreCase(usuario.getRol())) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();

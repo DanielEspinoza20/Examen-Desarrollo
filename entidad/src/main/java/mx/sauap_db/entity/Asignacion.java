@@ -28,8 +28,7 @@ public class Asignacion {
     private UnidadAprendizaje idUnidad;
 
     @NotNull
-    @Lob
-    @Column(name = "dia_semana", nullable = false)
+    @Column(name = "dia_semana", nullable = false, length = 50)
     private String diaSemana;
 
     @NotNull
