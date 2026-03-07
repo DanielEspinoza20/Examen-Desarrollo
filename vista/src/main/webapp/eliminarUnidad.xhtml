@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eliminar Unidad - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 24px; position: relative;
+        }
+        .form-card {
+            background: white; border-radius: 20px; padding: 32px 36px;
+            width: 100%; max-width: 440px; box-shadow: 0 6px 28px rgba(0,0,0,0.13);
+        }
+        .form-card h2 {
+            font-size: 20px; font-weight: 700; color: #1e4d8c;
+            text-align: center; margin-bottom: 24px;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+        .form-group label { font-size: 14px; font-weight: 500; color: #333; }
+        .form-group input {
+            border: 1.5px solid #ccc; border-radius: 8px; padding: 9px 12px;
+            font-family: 'Outfit', sans-serif; font-size: 14px; outline: none;
+            transition: border-color 0.2s; color: #222;
+        }
+        .form-group input:focus { border-color: #3ab8b8; box-shadow: 0 0 0 3px rgba(58,184,184,0.15); }
+        .ui-message-error-detail { color: #e53935; font-size: 11px; }
+        .info-card {
+            background: #f0faf4; border: 1.5px solid #a5d6a7; border-radius: 10px;
+            padding: 14px 16px; margin-bottom: 16px;
+        }
+        .info-card p { font-size: 13px; color: #2e7d32; line-height: 1.7; }
+        .info-card strong { color: #1b5e20; }
+        .btn-buscar {
+            width: 100%; padding: 11px;
+            background: linear-gradient(135deg, #3ab8b8, #2aa0a0); color: white;
+            border: none; border-radius: 10px; font-family: 'Outfit', sans-serif;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+            box-shadow: 0 3px 8px rgba(58,184,184,0.3);
+            transition: background 0.2s; margin-bottom: 14px;
+        }
+        .btn-buscar:hover { background: linear-gradient(135deg, #2aa0a0, #1a8888); }
+        .btn-eliminar {
+            width: 100%; padding: 12px;
+            background: linear-gradient(135deg, #ef5350, #c62828); color: white;
+            border: none; border-radius: 10px; font-family: 'Outfit', sans-serif;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 3px 10px rgba(198,40,40,0.25); transition: background 0.2s;
+        }
+        .btn-eliminar:hover { background: linear-gradient(135deg, #e53935, #b71c1c); }
+        .btn-regresar {
+            position: fixed; bottom: 24px; left: 24px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a); color: white;
+            border: none; border-radius: 8px; padding: 11px 28px;
+            font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+            cursor: pointer; box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s;
+        }
+        .btn-regresar:hover { background: linear-gradient(135deg, #43a363, #2e8a4c); }
+    </style>
+</h:head>
+
+<h:body>
+
+    <!-- Growl para mensajes -->
+    <p:growl id="mensajes" showDetail="true" life="3500" />
+
+    <div class="form-card">
+        <h2>Eliminar unidad</h2>
+
+        <h:form id="formEliminar">
+
+            <!-- Campo de búsqueda -->
+            <div class="form-group">
+                <label>Nombre:</label>
+                <h:inputText id="nombre"
+                             value="#{unidadBean.nombreBusqueda}"
+                             placeholder="Escribe el nombre y presiona Buscar"
+                             required="true"
+                             requiredMessage="El nombre es obligatorio" />
+                <h:message for="nombre" styleClass="ui-message-error-detail" />
+            </div>
+
+            <p:commandButton value="Buscar"
+                             action="#{unidadBean.buscar}"
+                             update="formEliminar mensajes"
+                             styleClass="btn-buscar" />
+
+            <!-- Info de la unidad encontrada -->
+            <p:outputPanel id="infoPanel" rendered="#{unidadBean.unidadEncontrada}">
+                <div class="info-card">
+                    <p>
+                        <strong>Nombre:</strong> #{unidadBean.unidad.nombreUnidad}<br />
+                        <strong>Horas Clase:</strong> #{unidadBean.unidad.horasClase}
+                        &#160;|&#160;
+                        <strong>Taller:</strong> #{unidadBean.unidad.horasTaller}
+                        &#160;|&#160;
+                        <strong>Lab:</strong> #{unidadBean.unidad.horasLaboratorio}
+                    </p>
+                </div>
+
+                <!-- Botón Eliminar con confirmación via PrimeFaces -->
+                <p:commandButton value="Eliminar"
+                                 action="#{unidadBean.eliminarUnidadSeleccionada}"
+                                 update="formEliminar mensajes"
+                                 styleClass="btn-eliminar"
+                                 onclick="return confirm('¿Estás seguro de eliminar la unidad #{unidadBean.unidad.nombreUnidad}? Esta acción no se puede deshacer.')">
+                </p:commandButton>
+            </p:outputPanel>
+
+        </h:form>
+    </div>
+
+    <!-- Botón regresar -->
+    <h:form id="formRegresar">
+        <p:commandButton value="Regresar"
+                         action="adminUnidad?faces-redirect=true"
+                         styleClass="btn-regresar"
+                         immediate="true" />
+    </h:form>
+
+</h:body>
+</html>

@@ -127,15 +127,15 @@
         <div class="menu-col">
             <div class="menu-card">
                 <span>Registro Unidad</span>
-                <p:commandButton value="Ir" action="#{unidadBean.registrar}" styleClass="btn-ir" />
+                <p:commandButton value="Ir" action="registroUnidad?faces-redirect=true" styleClass="btn-ir" />
             </div>
             <div class="menu-card">
                 <span>Modificar Unidad</span>
-                <p:commandButton value="Ir" action="#{unidadBean.modificar}" styleClass="btn-ir" />
+                <p:commandButton value="Ir" action="modificarUnidad?faces-redirect=true" styleClass="btn-ir" />
             </div>
             <div class="menu-card">
                 <span>Eliminar Unidad</span>
-                <p:commandButton value="Ir" action="#{unidadBean.eliminar}" styleClass="btn-ir" />
+                <p:commandButton value="Ir" action="eliminarUnidad?faces-redirect=true" styleClass="btn-ir" />
             </div>
         </div>
     </h:form>
@@ -144,7 +144,7 @@
         <h:form id="footerForm">
             <div class="salir-card">
                 <span>¿Deseas salir?</span>
-                <p:commandButton value="Salir" action="#{loginBean.logout}" styleClass="btn-salir" />
+                <p:commandButton value="Salir" action="admin?faces-redirect=true" styleClass="btn-salir" />
             </div>
         </h:form>
     </div>
