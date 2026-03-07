@@ -9,7 +9,7 @@ import mx.sauap_db.entity.UnidadAprendizaje;
 import java.util.List;
 
 public class UnidadAprendizajeDAO extends AbstractDAO<UnidadAprendizaje> {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("desarrolloPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistencePU");
 
     public void registrar(UnidadAprendizaje u) {
         EntityManager em = emf.createEntityManager();
