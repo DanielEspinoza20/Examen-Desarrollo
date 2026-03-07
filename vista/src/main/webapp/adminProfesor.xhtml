@@ -132,15 +132,15 @@
         <div class="menu-col">
             <div class="menu-card">
                 <span>Registro profesor</span>
-                <p:commandButton value="Ir" action="#{profesorBean.registrar}" styleClass="btn-ir" />
+                <p:commandButton value="Ir" action="registrarProfesor?faces-redirect=true" styleClass="btn-ir" />
             </div>
             <div class="menu-card">
                 <span>Modificar profesor</span>
-                <p:commandButton value="Ir" action="#{profesorBean.modificar}" styleClass="btn-ir" />
+                <p:commandButton value="Ir" action="modificarProfesor?faces-redirect=true}" styleClass="btn-ir" />
             </div>
             <div class="menu-card">
                 <span>Eliminar profesor</span>
-                <p:commandButton value="Ir" action="#{profesorBean.eliminar}" styleClass="btn-ir" />
+                <p:commandButton value="Ir" action="eliminarProfesor?faces-redirect=true" styleClass="btn-ir" />
             </div>
         </div>
     </h:form>
@@ -149,7 +149,7 @@
         <h:form id="footerForm">
             <div class="salir-card">
                 <span>¿Deseas salir?</span>
-                <p:commandButton value="Salir" action="#{loginBean.logout}" styleClass="btn-salir" />
+                <p:commandButton value="Salir" action="admin?faces-redirect=true" styleClass="btn-salir" />
             </div>
         </h:form>
     </div>

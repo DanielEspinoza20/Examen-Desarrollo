@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Profesor - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box; margin: 0; padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 24px;
+            position: relative;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+            max-width: 350px;
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+
+        .toast.show { opacity: 1; pointer-events: all; }
+        .toast-success { left: 20px; border-bottom: 4px solid #4caf50; }
+        .toast-error { right: 20px; border-bottom: 4px solid #e53935; }
+
+        .custom-close-btn {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(to bottom, #a94442 0%, #843534 100%);
+            border: 2px solid #ffffff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .custom-close-btn span {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1;
+            font-family: Arial, sans-serif;
+        }
+
+        .toast-header {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .toast-success .toast-header { color: #2e7d32; }
+        .toast-error .toast-header { color: #b71c1c; }
+        .toast-body { font-size: 13px; color: #555; }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px 36px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 6px 28px rgba(0,0,0,0.13);
+        }
+
+        .form-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e4d8c;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #222;
+        }
+
+        .form-group input:focus {
+            border-color: #3ab8b8;
+            box-shadow: 0 0 0 3px rgba(58,184,184,0.15);
+        }
+
+        .form-group input.invalid {
+            border-color: #e53935;
+            box-shadow: 0 0 0 3px rgba(229,57,53,0.1);
+        }
+
+        .error-msg {
+            font-size: 11px;
+            color: #e53935;
+            min-height: 14px;
+            margin-top: 1px;
+        }
+
+        .btn-registrar {
+            width: 100%;
+            margin-top: 8px;
+            padding: 12px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-registrar:hover {
+            background: linear-gradient(135deg, #43a363, #2e8a4c);
+        }
+        .btn-registrar:active {
+            transform: scale(0.98);
+        }
+
+        .btn-regresar {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-regresar:hover {
+            background: linear-gradient(135deg, #43a363, #2e8a4c);
+        }
+        .btn-regresar:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+
+<div class="toast toast-success" id="toastSuccess">
+    <div style="background: #4caf50; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">✓</div>
+    <div>
+        <div class="toast-header">Éxito</div>
+        <div class="toast-body">Profesor registrado con éxito</div>
+    </div>
+</div>
+
+<div class="toast toast-error" id="toastError">
+    <div class="custom-close-btn">
+        <div style="background: #d50101; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">X</div>
+    </div>
+    <div>
+        <div class="toast-header">Error</div>
+        <div class="toast-body" id="errorMsg">Error al registrar</div>
+    </div>
+</div>
+
+<div class="form-card">
+    <h2>Registro de profesor</h2>
+
+    <div class="form-group">
+        <label>Nombre:</label>
+        <input type="text" id="nombre" maxlength="50" placeholder="Máximo 50 caracteres" />
+        <span class="error-msg" id="errNombre"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Apellido Paterno:</label>
+        <input type="text" id="aPaterno" maxlength="50" placeholder="Máximo 50 caracteres" />
+        <span class="error-msg" id="errAPaterno"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Apellido Materno:</label>
+        <input type="text" id="aMaterno" maxlength="50" placeholder="Máximo 50 caracteres" />
+        <span class="error-msg" id="errAMaterno"></span>
+    </div>
+
+    <div class="form-group">
+        <label>RFC:</label>
+        <input type="text" id="rfc" maxlength="13" placeholder="Ej. GARL850101AB1" />
+        <span class="error-msg" id="errRfc"></span>
+    </div>
+
+    <button class="btn-registrar" onclick="registrar()">Registrar</button>
+</div>
+
+<div class="footer">
+    <h:form id="footerForm">
+        <div class="regresar-card">
+            <p:commandButton value="Regresar" action="adminProfesor?faces-redirect=true" styleClass="btn-regresar" />
+        </div>
+    </h:form>
+</div>
+
+<script>
+    const rfcsRegistrados = ['GARL850101AB1', 'MAAA900512CD2'];
+
+    function setError(inputId, msgId, msg) {
+        const input = document.getElementById(inputId);
+        const span = document.getElementById(msgId);
+        input.classList.add('invalid');
+        span.textContent = msg;
+        return false;
+    }
+
+    function clearError(inputId, msgId) {
+        document.getElementById(inputId).classList.remove('invalid');
+        document.getElementById(msgId).textContent = '';
+    }
+
+    function showToast(type, msg) {
+        const s = document.getElementById('toastSuccess');
+        const e = document.getElementById('toastError');
+        s.classList.remove('show');
+        e.classList.remove('show');
+        if (type === 'success') {
+            s.classList.add('show');
+            setTimeout(() => s.classList.remove('show'), 3500);
+        } else {
+            document.getElementById('errorMsg').textContent = msg;
+            e.classList.add('show');
+            setTimeout(() => e.classList.remove('show'), 3500);
+        }
+    }
+
+    function registrar() {
+        const nombre = document.getElementById('nombre').value.trim();
+        const aPaterno = document.getElementById('aPaterno').value.trim();
+        const aMaterno = document.getElementById('aMaterno').value.trim();
+        const rfc = document.getElementById('rfc').value.trim().toUpperCase();
+
+        ['nombre','aPaterno','aMaterno','rfc'].forEach((id, i) => {
+            clearError(id, ['errNombre','errAPaterno','errAMaterno','errRfc'][i]);
+        });
+
+        let valid = true;
+
+        if (!nombre) {
+            setError('nombre', 'errNombre', 'El nombre es obligatorio');
+            showToast('error', 'El nombre es obligatorio');
+            valid = false;
+        }
+        if (!aPaterno) {
+            setError('aPaterno', 'errAPaterno', 'El apellido paterno es obligatorio');
+            if (valid) showToast('error', 'El apellido paterno es obligatorio');
+            valid = false;
+        }
+        if (!aMaterno) {
+            setError('aMaterno', 'errAMaterno', 'El apellido materno es obligatorio');
+            if (valid) showToast('error', 'El apellido materno es obligatorio');
+            valid = false;
+        }
+        if (!rfc) {
+            setError('rfc', 'errRfc', 'El RFC es obligatorio');
+            if (valid) showToast('error', 'El RFC es obligatorio');
+            valid = false;
+        } else {
+            const rfcRegex = /^[A-Z&amp;Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}$/;
+            if (!rfcRegex.test(rfc)) {
+                setError('rfc', 'errRfc', 'El RFC no tiene el formato correcto');
+                if (valid) showToast('error', 'El RFC no tiene el formato correcto');
+                valid = false;
+            } else if (rfcsRegistrados.includes(rfc)) {
+                setError('rfc', 'errRfc', 'El RFC ya está registrado en el sistema');
+                if (valid) showToast('error', 'El RFC ya está registrado en el sistema');
+                valid = false;
+            }
+        }
+
+        if (valid) {
+            rfcsRegistrados.push(rfc);
+            showToast('success');
+            ['nombre','aPaterno','aMaterno','rfc'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+        }
+    }
+</script>
+</body>
+</html>
