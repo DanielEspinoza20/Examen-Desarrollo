@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administrador - Unidad - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Outfit", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 40px 24px;
+            gap: 30px;
+        }
+
+        .title-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+
+        .title-card h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e4d8c;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-col {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 28px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .menu-card span {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1e4d8c;
+        }
+
+        .btn-ir, .btn-salir {
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 30px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(60,160,90,0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-ir:hover, .btn-salir:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 4px 12px rgba(60,160,90,0.4);
+        }
+
+        .btn-ir:active, .btn-salir:active { transform: scale(0.95); }
+
+        .footer {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .salir-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 16px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .salir-card span {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e4d8c;
+        }
+    </style>
+</h:head>
+
+<h:body>
+
+    <div class="title-card">
+        <h1>ADMINISTRADOR - UNIDAD</h1>
+    </div>
+
+    <h:form id="menuForm">
+        <div class="menu-col">
+            <div class="menu-card">
+                <span>Registro Unidad</span>
+                <p:commandButton value="Ir" action="registroUnidad?faces-redirect=true" styleClass="btn-ir" />
+            </div>
+            <div class="menu-card">
+                <span>Modificar Unidad</span>
+                <p:commandButton value="Ir" action="modificarUnidad?faces-redirect=true" styleClass="btn-ir" />
+            </div>
+            <div class="menu-card">
+                <span>Eliminar Unidad</span>
+                <p:commandButton value="Ir" action="eliminarUnidad?faces-redirect=true" styleClass="btn-ir" />
+            </div>
+        </div>
+    </h:form>
+
+    <div class="footer">
+        <h:form id="footerForm">
+            <div class="salir-card">
+                <span>¿Deseas salir?</span>
+                <p:commandButton value="Salir" action="admin?faces-redirect=true" styleClass="btn-salir" />
+            </div>
+        </h:form>
+    </div>
+
+</h:body>
+</html>

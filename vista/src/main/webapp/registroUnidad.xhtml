@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Unidad - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 24px;
+            position: relative;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px 36px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 6px 28px rgba(0,0,0,0.13);
+        }
+
+        .form-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e4d8c;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #222;
+            width: 100%;
+        }
+
+        .form-group input:focus {
+            border-color: #3ab8b8;
+            box-shadow: 0 0 0 3px rgba(58,184,184,0.15);
+        }
+
+        .horas-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .hora-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hora-item label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .hora-item input {
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            padding: 9px 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #222;
+            width: 100%;
+        }
+
+        .hora-item input:focus {
+            border-color: #3ab8b8;
+            box-shadow: 0 0 0 3px rgba(58,184,184,0.15);
+        }
+
+        .range-hint {
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 18px;
+            font-style: italic;
+        }
+
+        /* Mensajes de validación JSF */
+        .ui-message-error-detail,
+        .ui-message-error {
+            color: #e53935;
+            font-size: 11px;
+        }
+
+        .btn-registrar {
+            width: 100%;
+            margin-top: 8px;
+            padding: 12px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-registrar:hover { background: linear-gradient(135deg, #43a363, #2e8a4c); }
+        .btn-registrar:active { transform: scale(0.98); }
+
+        .btn-regresar {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-regresar:hover { background: linear-gradient(135deg, #43a363, #2e8a4c); }
+        .btn-regresar:active { transform: scale(0.97); }
+    </style>
+</h:head>
+
+<h:body>
+
+    <h:form id="formRegistro">
+
+        <!-- Growl para mensajes éxito / error -->
+        <p:growl id="mensajes" showDetail="true" life="3500" />
+
+        <div class="form-card">
+            <h2>Registro de unidad</h2>
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label>Nombre:</label>
+                <h:inputText id="nombre"
+                             value="#{unidadBean.unidad.nombreUnidad}"
+                             maxlength="50"
+                             placeholder="Máximo 50 caracteres"
+                             required="true"
+                             requiredMessage="El nombre es obligatorio" />
+                <h:message for="nombre" styleClass="ui-message-error-detail" />
+            </div>
+
+            <!-- Horas -->
+            <div class="horas-group">
+                <div class="hora-item">
+                    <label>Horas Clase</label>
+                    <h:inputText id="hClase"
+                                 value="#{unidadBean.unidad.horasClase}"
+                                 placeholder="0"
+                                 required="true"
+                                 requiredMessage="Obligatorio">
+                        <f:validateLongRange minimum="0" maximum="4" />
+                    </h:inputText>
+                    <h:message for="hClase" styleClass="ui-message-error-detail" />
+                </div>
+                <div class="hora-item">
+                    <label>Horas Taller</label>
+                    <h:inputText id="hTaller"
+                                 value="#{unidadBean.unidad.horasTaller}"
+                                 placeholder="0"
+                                 required="true"
+                                 requiredMessage="Obligatorio">
+                        <f:validateLongRange minimum="0" maximum="4" />
+                    </h:inputText>
+                    <h:message for="hTaller" styleClass="ui-message-error-detail" />
+                </div>
+                <div class="hora-item">
+                    <label>Horas Lab</label>
+                    <h:inputText id="hLab"
+                                 value="#{unidadBean.unidad.horasLaboratorio}"
+                                 placeholder="0"
+                                 required="true"
+                                 requiredMessage="Obligatorio">
+                        <f:validateLongRange minimum="0" maximum="4" />
+                    </h:inputText>
+                    <h:message for="hLab" styleClass="ui-message-error-detail" />
+                </div>
+            </div>
+
+            <p class="range-hint">Cada campo acepta valores entre 0 y 4</p>
+
+            <p:commandButton value="Registrar"
+                             action="#{unidadBean.guardar}"
+                             update="formRegistro:mensajes"
+                             styleClass="btn-registrar" />
+        </div>
+
+        <!-- Botón regresar -->
+        <p:commandButton value="Regresar"
+                         action="adminUnidad?faces-redirect=true"
+                         styleClass="btn-regresar"
+                         immediate="true" />
+
+    </h:form>
+
+</h:body>
+</html>
