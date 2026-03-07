@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modificar Profesor - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 24px;
+            position: relative;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px 36px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 6px 28px rgba(0,0,0,0.13);
+        }
+
+        .form-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e4d8c;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .search-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .search-section input,
+        .search-section .ui-inputfield {
+            flex: 1;
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #222;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        .search-section input:focus,
+        .search-section .ui-inputfield:focus {
+            border-color: #3ab8b8;
+            box-shadow: 0 0 0 3px rgba(58,184,184,0.15);
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .hint.found    { color: #2e7d32; font-style: normal; font-weight: 600; }
+        .hint.notfound { color: #c62828; font-style: normal; }
+
+        .divider { border: none; border-top: 1.5px dashed #dde; margin-bottom: 20px; }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group .ui-inputfield {
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #222;
+            width: 100%;
+        }
+
+        .form-group input:focus,
+        .form-group .ui-inputfield:focus {
+            border-color: #3ab8b8;
+            box-shadow: 0 0 0 3px rgba(58,184,184,0.15);
+        }
+
+        .ui-message-error-detail {
+            color: #e53935;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .info-card {
+            background: #f0faf4;
+            border: 1px solid #a5d6a7;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #2e7d32;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .btn-buscar {
+            background: linear-gradient(135deg, #3ab8b8, #2aa0a0);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-buscar:hover  { background: linear-gradient(135deg, #2aa0a0, #1a8888); }
+        .btn-buscar:active { transform: scale(0.97); }
+
+        .btn-modificar {
+            width: 100%;
+            margin-top: 8px;
+            padding: 12px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-modificar:hover  { background: linear-gradient(135deg, #43a363, #2e8a4c); }
+        .btn-modificar:active { transform: scale(0.98); }
+
+        .btn-regresar {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-regresar:hover  { background: linear-gradient(135deg, #43a363, #2e8a4c); }
+        .btn-regresar:active { transform: scale(0.97); }
+    </style>
+</h:head>
+
+<h:body>
+
+    <f:metadata>
+        <f:viewAction action="#{loginBean.verificarAdmin}" />
+    </f:metadata>
+
+    <p:growl id="mensajes" showDetail="true" life="3500" />
+
+    <div class="form-card">
+        <h2>Modificar profesor</h2>
+
+        <h:form id="formBuscar">
+            <div class="search-section">
+                <h:inputText id="rfcBusqueda"
+                             value="#{profesorBean.rfcBusqueda}"
+                             maxlength="13"
+                             placeholder="RFC del profesor a modificar..."
+                             style="text-transform:uppercase" />
+                <p:commandButton value="Buscar"
+                                 action="#{profesorBean.buscar}"
+                                 update="formBuscar formModificar mensajes"
+                                 styleClass="btn-buscar" />
+            </div>
+            <p class="hint #{profesorBean.busquedaRealizada ? (profesorBean.profesorEncontrado ? 'found' : 'notfound') : ''}">
+                #{profesorBean.mensajeBusqueda}
+            </p>
+        </h:form>
+
+        <hr class="divider" />
+
+        <h:form id="formModificar">
+            <h:panelGroup rendered="#{profesorBean.profesorEncontrado}">
+
+                <div class="info-card">
+                    Editando: #{profesorBean.profesor.nombre}
+                    #{profesorBean.profesor.apellidoPaterno}
+                    #{profesorBean.profesor.apellidoMaterno}
+                </div>
+
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <h:inputText id="nombre"
+                                 value="#{profesorBean.profesor.nombre}"
+                                 maxlength="50"
+                                 required="true"
+                                 requiredMessage="El nombre es obligatorio" />
+                    <h:message for="nombre" styleClass="ui-message-error-detail" />
+                </div>
+
+                <div class="form-group">
+                    <label>Apellido Paterno:</label>
+                    <h:inputText id="aPaterno"
+                                 value="#{profesorBean.profesor.apellidoPaterno}"
+                                 maxlength="50"
+                                 required="true"
+                                 requiredMessage="El apellido paterno es obligatorio" />
+                    <h:message for="aPaterno" styleClass="ui-message-error-detail" />
+                </div>
+
+                <div class="form-group">
+                    <label>Apellido Materno:</label>
+                    <h:inputText id="aMaterno"
+                                 value="#{profesorBean.profesor.apellidoMaterno}"
+                                 maxlength="50"
+                                 required="true"
+                                 requiredMessage="El apellido materno es obligatorio" />
+                    <h:message for="aMaterno" styleClass="ui-message-error-detail" />
+                </div>
+
+                <div class="form-group">
+                    <label>RFC:</label>
+                    <h:inputText id="rfc"
+                                 value="#{profesorBean.profesor.rfc}"
+                                 maxlength="13"
+                                 required="true"
+                                 requiredMessage="El RFC es obligatorio">
+                        <f:validateRegex pattern="[A-Z&amp;Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}"
+                                         message="El RFC no tiene el formato correcto" />
+                    </h:inputText>
+                    <h:message for="rfc" styleClass="ui-message-error-detail" />
+                </div>
+
+                <p:commandButton value="Modificar"
+                                 action="#{profesorBean.actualizar}"
+                                 update="formBuscar formModificar mensajes"
+                                 styleClass="btn-modificar" />
+
+            </h:panelGroup>
+        </h:form>
+
+    </div>
+
+    <h:form id="formRegresar">
+        <p:commandButton value="Regresar"
+                         action="adminProfesor?faces-redirect=true"
+                         styleClass="btn-regresar"
+                         immediate="true" />
+    </h:form>
+
+</h:body>
+</html>
