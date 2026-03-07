@@ -12,7 +12,8 @@ import java.util.List;
 
 @Named("unidadBean")
 @SessionScoped
-public class UnidadBean implements Serializable{
+public class UnidadBean implements Serializable {
+
     //Facade
     private final FacadeUnidadAprendizaje facade = new FacadeUnidadAprendizaje();
 
@@ -20,97 +21,98 @@ public class UnidadBean implements Serializable{
     private UnidadAprendizaje unidad = new UnidadAprendizaje();
     private String nombreBusqueda;
     private boolean unidadEncontrada = false;
-    private boolean bosquedaRealiza = false;
+    private boolean busquedaRealizada = false;
     private String mensajeBusqueda = "Introduce el nombre y presiona Buscar";
 
-    //Registrar
-    public void guardar(){
+    //REGISTRAR
+    public void guardar() {
         FacesContext ctx = FacesContext.getCurrentInstance();
 
-        if(!facade.nombreDisponible(unidad.getNombreUnidad(), 0)){
+        if (!facade.nombreDisponible(unidad.getNombreUnidad(), 0)) {
             ctx.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "ERROR", "El nombre de la unidad ya esta registrado"
-            ));
+                    FacesMessage.SEVERITY_ERROR, "Error", "El nombre de la unidad ya está registrado"));
             return;
         }
-        try{
+
+        try {
             facade.registrar(unidad);
             ctx.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_INFO, "Exito", "Unidad registrado correctamente"));
+                    FacesMessage.SEVERITY_INFO, "Éxito", "Unidad registrada correctamente"));
             unidad = new UnidadAprendizaje();
-        }catch(Exception e){
+        } catch (Exception e) {
             ctx.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "ERROR", "no se pudo registrar"));
+                    FacesMessage.SEVERITY_ERROR, "Error", "No se pudo registrar: "));
         }
     }
 
     //BUSCAR
-    public void buscar(){
+    public void buscar() {
         busquedaRealizada = true;
-        unidadEncontrada = false;
+        unidadEncontrada  = false;
 
-        if (nombreBusqueda == null || nombreBusqueda.trim().isEmpty()){
+        if (nombreBusqueda == null || nombreBusqueda.trim().isEmpty()) {
             mensajeBusqueda = "Introduce un nombre para buscar";
             return;
         }
 
         UnidadAprendizaje encontrada = facade.buscarPorNombre(nombreBusqueda.trim());
-        if(encontrada != null){
-            unidad = encontrada;
+        if (encontrada != null) {
+            unidad           = encontrada;
             unidadEncontrada = true;
-            mensajeBusqueda = "Unidad encontrada";
-        }else{
-            unidad = new UnidadAprendizaje();
-            mensajeBusqueda = "No se encontro ningun unidad con ese nombre";
+            mensajeBusqueda  = "✓ Unidad encontrada";
+        } else {
+            unidad          = new UnidadAprendizaje();
+            mensajeBusqueda = "No se encontró ninguna unidad con ese nombre";
         }
     }
 
     //MODIFICAR
-    public void actualizar(){
+    public void actualizar() {
         FacesContext ctx = FacesContext.getCurrentInstance();
 
-        if(!facade.nombreDisponible(unidad.getNombreUnidad(), unidad.getId())){
+        if (!facade.nombreDisponible(unidad.getNombreUnidad(), unidad.getId())) {
             ctx.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "ERROR", "El nombre ya pertenece a otra unidad"));
+                    FacesMessage.SEVERITY_ERROR, "Error", "El nombre ya pertenece a otra unidad"));
             return;
         }
 
-        try{
+        try {
             facade.modificar(unidad);
             ctx.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_INFO, "Exito", "Unidad modificada correctamente"));
+                    FacesMessage.SEVERITY_INFO, "Éxito", "Unidad modificada correctamente"));
             resetBusqueda();
-        }catch(Exception e){
+        } catch (Exception e) {
             ctx.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "ERROR", "No se pudo modificar"));
+                    FacesMessage.SEVERITY_ERROR, "Error", "No se pudo modificar: " + e.getMessage()));
         }
     }
 
-    //Eliminar
-    public void eliminarUnidadSeleccionada(){
+    //ELIMINAR
+    public void eliminarUnidadSeleccionada() {
         FacesContext ctx = FacesContext.getCurrentInstance();
-        if(unidad == null || unidad.getId() == null){
+        if (unidad == null || unidad.getId() == null) {
             ctx.addMessage(null, new FacesMessage(
-                FacesMessage.SEVERITY_WARN, "Aviso", "Primero busca unidad"));
+                    FacesMessage.SEVERITY_WARN, "Aviso", "Primero busca una unidad"));
             return;
         }
-        try{
+        try {
             facade.eliminar(unidad.getId());
             ctx.addMessage(null, new FacesMessage(
-                FacesMessage.SEVERITY_INFO, "Exito", "Unidad eliminada correctamente"));
+                    FacesMessage.SEVERITY_INFO, "Éxito", "Unidad eliminada correctamente"));
             resetBusqueda();
-        }catch (Exception e){
+        } catch (Exception e) {
             ctx.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "ERROR", "No se pudo eliminar"));
+                    FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar: " + e.getMessage()));
         }
     }
-    //Consulta General
-    public List<UnidadAprendizaje> listarTodas(){
+
+    //CONSULTA GENERAL
+    public List<UnidadAprendizaje> listarTodas() {
         return facade.listarTodas();
     }
 
-    //Reset
-    private void resetBusqueda(){
+    //RESET
+    private void resetBusqueda() {
         unidad = new UnidadAprendizaje();
         nombreBusqueda = null;
         unidadEncontrada = false;
@@ -118,7 +120,7 @@ public class UnidadBean implements Serializable{
         mensajeBusqueda = "Introduce el nombre y presiona Buscar";
     }
 
-    //Getters y Setters
+    //Getters / Setters
     public UnidadAprendizaje getUnidad(){
         return unidad;
     }
@@ -147,3 +149,4 @@ public class UnidadBean implements Serializable{
         return mensajeBusqueda;
     }
 }
+
