@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import mx.sauap_db.desarrollo.persistence.AbstractDAO;
 import mx.sauap_db.desarrollo.persistence.HibernateUtil;
 import mx.sauap_db.entity.Profesor;
+import java.util.List;
 
 public class ProfesorDAO extends AbstractDAO<Profesor> {
 
@@ -15,4 +16,12 @@ public class ProfesorDAO extends AbstractDAO<Profesor> {
     protected EntityManager getEntityManager() {
         return HibernateUtil.getEntityManager();
     }
+
+    public List<Profesor> obtenerListaProfesores() {
+        return execute(em ->
+                em.createQuery("SELECT p FROM Profesor p", Profesor.class)
+                        .getResultList()
+        );
+    }
+
 }

@@ -26,4 +26,6 @@ public class UsuarioDAO extends AbstractDAO<Usuario> {
             return  null;
             }
         }
+
+
     }
