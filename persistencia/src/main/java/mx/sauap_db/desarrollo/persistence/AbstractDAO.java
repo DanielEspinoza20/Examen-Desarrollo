@@ -21,8 +21,6 @@ public abstract class AbstractDAO<T> {
 
     protected abstract EntityManager getEntityManager();
 
-
-
     public void save(T entity) {
         executeInsideTransaction(em -> em.persist(entity));
     }
@@ -63,8 +61,6 @@ public abstract class AbstractDAO<T> {
             return merged;
         });
     }
-
-
 
     public int executeCountQuery(String query) {
         return execute(em -> Math.toIntExact(em.createQuery(query, Long.class).getSingleResult()));
@@ -110,9 +106,6 @@ public abstract class AbstractDAO<T> {
         );
     }
 
-
-
-
     public List<T> executeProcedure(String procedureName) {
         return execute(em -> {
             StoredProcedureQuery query = em.createStoredProcedureQuery(procedureName, entityClass);
@@ -120,16 +113,12 @@ public abstract class AbstractDAO<T> {
         });
     }
 
-
-
     public List<T> executeNativeQuery(String sql) {
         return execute(em ->
                 em.createNativeQuery(sql, entityClass)
                         .getResultList()
         );
     }
-
-
 
     // Utility to run in transaction
     private void executeInsideTransaction(Consumer<EntityManager> action) {
@@ -154,3 +143,4 @@ public abstract class AbstractDAO<T> {
     }
 
 }
+
