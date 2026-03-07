@@ -1,6 +1,7 @@
 package mx.sauap_db.desarrollo.dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import mx.sauap_db.desarrollo.persistence.AbstractDAO;
 import mx.sauap_db.desarrollo.persistence.HibernateUtil;
 import mx.sauap_db.entity.Profesor;
@@ -23,5 +24,7 @@ public class ProfesorDAO extends AbstractDAO<Profesor> {
                         .getResultList()
         );
     }
+
+
 
 }

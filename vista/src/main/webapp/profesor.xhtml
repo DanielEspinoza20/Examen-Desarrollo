@@ -3,153 +3,77 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core">
+
+<f:metadata>
+    <f:event type="preRenderView" listener="#{loginBean.verificarProfesor}" />
+    <f:event type="preRenderView" listener="#{profesorBean.cargarHorario}" />
+</f:metadata>
+
 <h:head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bienvenido Profesor - SAUAP</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
     <style>
-         {
-            box-sizing: border-box; margin: 0; padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Outfit', sans-serif;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            display: flex; flex-direction: column; align-items: center;
             background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
-            padding: 32px 24px;
-            gap: 24px;
+            padding: 32px 24px; gap: 24px;
         }
-
         .title-card {
-            background: white;
-            border-radius: 14px;
-            padding: 16px 60px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-            text-align: center;
+            background: white; border-radius: 14px; padding: 16px 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12); text-align: center;
         }
-        .title-card h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: #1e4d8c;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .title-card p {
-            color: #555;
-            margin-top: 5px;
-            font-size: 15px;
-        }
-
+        .title-card h1 { font-size: 26px; font-weight: 700; color: #1e4d8c; text-transform: uppercase; }
+        .title-card p  { color: #555; margin-top: 5px; font-size: 15px; }
         .table-wrapper {
-            background: white;
-            border-radius: 14px;
-            overflow: hidden;
+            background: white; border-radius: 14px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-            width: 100%;
-            max-width: 900px;
-            max-height: 480px;
-            overflow-y: auto;
+            width: 100%; max-width: 900px; max-height: 480px; overflow-y: auto;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        thead tr {
-            background: #2e6db4;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        thead th {
-            padding: 12px 14px;
-            font-weight: 600;
-            text-align: left;
-            font-size: 14px;
-            letter-spacing: 0.3px;
-        }
-
-        tbody tr:nth-child(odd)  {
-            background: #dde6f0;
-        }
-        tbody tr:nth-child(even) {
-            background: #edf2f8;
-        }
-
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        thead tr { background: #2e6db4; color: white; position: sticky; top: 0; z-index: 10; }
+        thead th { padding: 12px 14px; font-weight: 600; text-align: center; }
+        tbody tr:nth-child(odd)  { background: #dde6f0; }
+        tbody tr:nth-child(even) { background: #edf2f8; }
         tbody td {
-            padding: 10px 14px;
-            color: #333;
-            font-size: 14px;
+            padding: 10px 14px; color: #333; font-size: 14px;
+            height: 45px; text-align: center;
             border-bottom: 1px solid rgba(255,255,255,0.6);
-            height: 45px;
         }
-
-        .tag {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .tag-clase  {
-            background: #c8e6c9; color: #2e7d32;
-        }
-        .tag-taller {
-            background: #fff9c4; color: #f57f17;
-        }
-        .tag-lab    {
-            background: #fce4ec; color: #c62828;
-        }
-
-        .table-wrapper::-webkit-scrollbar {
-            width: 6px;
-        }
-        .table-wrapper::-webkit-scrollbar-track {
-            background: #edf2f8;
-        }
-        .table-wrapper::-webkit-scrollbar-thumb {
-            background: #2e6db4; border-radius: 4px;
-        }
-
-        .footer {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            justify-content: flex-start;
-        }
-
+        td.merged-clase  { background: #dff2df !important; vertical-align: middle; }
+        td.merged-taller { background: #fffde7 !important; vertical-align: middle; }
+        td.merged-lab    { background: #fde8ee !important; vertical-align: middle; }
+        .tag { display: inline-block; padding: 2px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; }
+        .tag-clase  { background: #c8e6c9; color: #2e7d32; }
+        .tag-taller { background: #fff9c4; color: #f57f17; }
+        .tag-lab    { background: #fce4ec; color: #c62828; }
+        .footer { width: 100%; max-width: 900px; display: flex; justify-content: flex-start; }
         .btn-salir {
-            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 11px 44px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 3px 8px rgba(60,160,90,0.3);
-            transition: background 0.2s, transform 0.1s;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a); color: white;
+            border: none; border-radius: 8px; padding: 11px 44px;
+            font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+            cursor: pointer; box-shadow: 0 3px 8px rgba(60,160,90,0.3);
         }
-        .btn-salir:hover {
-            background: linear-gradient(135deg, #43a363, #2e8a4c);
-        }
-        .btn-salir:active { transform: scale(0.97); }
+        .btn-salir:hover { background: linear-gradient(135deg, #43a363, #2e8a4c); }
     </style>
 </h:head>
 
 <h:body>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        var NOMBRE_PROFESOR = "#{loginBean.usuario.username}";
+        var DATOS_HORARIO   = #{profesorBean.horarioJson};
+        //]]>
+    </script>
+
     <div class="title-card">
-        <h1>BIENVENIDO – PROFESOR</h1>
-        <p>Hola, <b>#{loginBean.usuario.username}</b>. Este es tu horario actual.</p>
+        <h1>BIENVENIDO &#8211; PROFESOR</h1>
+        <p>Hola, <b id="nombre-profe"></b>. Este es tu horario actual.</p>
     </div>
 
     <div class="table-wrapper">
@@ -159,63 +83,13 @@
                 <th>Horas</th>
                 <th>Lunes</th>
                 <th>Martes</th>
-                <th>Miércoles</th>
+                <th>Mi&#233;rcoles</th>
                 <th>Jueves</th>
                 <th>Viernes</th>
-                <th>Sábado</th>
+                <th>S&#225;bado</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>7:00am</td>
-                <td><span class="tag tag-clase">Clase 1</span></td>
-                <td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>8:00am</td>
-                <td><span class="tag tag-clase">Clase 1</span></td>
-                <td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>9:00am</td>
-                <td><span class="tag tag-clase">Clase 1</span></td>
-                <td></td>
-                <td><span class="tag tag-taller">Taller</span></td>
-                <td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>10:00am</td>
-                <td><span class="tag tag-clase">Clase 1</span></td>
-                <td></td>
-                <td><span class="tag tag-taller">Taller</span></td>
-                <td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>11:00am</td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>12:00pm</td>
-                <td></td><td></td><td></td><td></td>
-                <td><span class="tag tag-lab">Lab</span></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1:00pm</td>
-                <td></td><td></td><td></td><td></td>
-                <td><span class="tag tag-lab">Lab</span></td>
-                <td></td>
-            </tr>
-            <tr><td>2:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>3:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>4:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>5:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>6:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>7:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>8:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>9:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>10:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            </tbody>
+            <tbody id="tabla-profe"></tbody>
         </table>
     </div>
 
@@ -226,5 +100,84 @@
                              styleClass="btn-salir" />
         </h:form>
     </div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        document.getElementById('nombre-profe').textContent = NOMBRE_PROFESOR;
+
+        function mapearDatos(rows) {
+            var data = [];
+            rows.forEach(function(row) {
+                var inicio = parseInt(row.hora_inicio.split(':')[0]);
+                var dias   = row.dia_semana.split(',').map(function(d){ return d.trim(); });
+                var hc = parseInt(row.horas_clase)       || 0;
+                var ht = parseInt(row.horas_taller)      || 0;
+                var hl = parseInt(row.horas_laboratorio) || 0;
+
+                dias.forEach(function(dia) {
+                    var cursor = inicio;
+                    if (hc > 0) {
+                        data.push({ tipo:'Clase',  nombre:row.nombre_unidad, dia:dia, inicio:cursor, fin:cursor+hc });
+                        cursor += hc;
+                    }
+                    if (ht > 0) {
+                        data.push({ tipo:'Taller', nombre:row.nombre_unidad, dia:dia, inicio:cursor, fin:cursor+ht });
+                        cursor += ht;
+                    }
+                    if (hl > 0) {
+                        data.push({ tipo:'Lab',    nombre:row.nombre_unidad, dia:dia, inicio:cursor, fin:cursor+hl });
+                    }
+                });
+            });
+            return data;
+        }
+
+        function renderizarHorario(horarioData) {
+            var contenedor = document.getElementById('tabla-profe');
+            var dias = ['Lunes','Martes','Mi\u00e9rcoles','Jueves','Viernes','S\u00e1bado'];
+            var horaInicio = 7, horaFin = 22;
+            contenedor.innerHTML = '';
+
+            var skip = {};
+            dias.forEach(function(d){ skip[d] = {}; });
+
+            for (var h = horaInicio; h <= horaFin; h++) {
+                var label = h < 12 ? h+':00am' : h === 12 ? '12:00pm' : (h-12)+':00pm';
+                var fila  = '<tr><td>' + label + '</td>';
+
+                dias.forEach(function(dia) {
+                    if (skip[dia][h]) return;
+
+                    var match = null;
+                    for (var i = 0; i < horarioData.length; i++) {
+                        var x = horarioData[i];
+                        if (x.dia === dia && h >= x.inicio && h < x.fin) { match = x; break; }
+                    }
+
+                    if (match) {
+                        var span     = match.fin - match.inicio;
+                        var cssClass = match.tipo === 'Clase'  ? 'tag-clase'
+                            : match.tipo === 'Taller' ? 'tag-taller' : 'tag-lab';
+                        var tdClass  = match.tipo === 'Clase'  ? 'merged-clase'
+                            : match.tipo === 'Taller' ? 'merged-taller' : 'merged-lab';
+                        for (var s = h+1; s < match.fin; s++) skip[dia][s] = true;
+                        fila += '<td rowspan="' + span + '" class="' + tdClass + '">'
+                            + '<span class="tag ' + cssClass + '">' + match.nombre + '</span><br/>'
+                            + '<small style="color:#888;font-size:11px">' + match.tipo + '</small>'
+                            + '</td>';
+                    } else {
+                        fila += '<td></td>';
+                    }
+                });
+
+                fila += '</tr>';
+                contenedor.innerHTML += fila;
+            }
+        }
+
+        renderizarHorario(mapearDatos(DATOS_HORARIO));
+        //]]>
+    </script>
+
 </h:body>
 </html>

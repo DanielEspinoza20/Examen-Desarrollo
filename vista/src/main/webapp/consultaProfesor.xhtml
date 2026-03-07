@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Profesor - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <!-- pega aquí todo el CSS que ya tienes -->
+</h:head>
+<h:body>
+
+    <f:metadata>
+        <f:viewAction action="#{loginBean.verificarProfesor()}" />
+        <f:viewAction action="#{profesorBean.cargarHorario()}" />
+    </f:metadata>
+
+    <!-- Inyecta los datos del Bean en variables JS -->
+    <script type="text/javascript">
+        var NOMBRE_PROFESOR = "#{profesorBean.nombreProfesor}";
+        var DATOS_HORARIO   = #{profesorBean.horarioJson};
+    </script>
+
+    <div class="card-header">
+        <h1>BIENVENIDO – PROFESOR</h1>
+        <p id="nombre-profe">Cargando...</p>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Horas</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+            </tr>
+            </thead>
+            <tbody id="tabla-profe"></tbody>
+        </table>
+    </div>
+
+    <h:commandButton value="Salir" action="#{loginBean.logout()}"
+                     styleClass="btn-salir" />
+
+    <!-- pega aquí las funciones renderizarHorario y mapearDatos del HTML -->
+    <script type="text/javascript">
+        document.getElementById('nombre-profe').innerHTML =
+            'Hola, <b>' + NOMBRE_PROFESOR + '</b>. Este es tu horario actual.';
+
+        renderizarHorario(mapearDatos(DATOS_HORARIO));
+    </script>
+
+</h:body>
+</html>

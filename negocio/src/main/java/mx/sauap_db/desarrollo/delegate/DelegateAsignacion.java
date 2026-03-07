@@ -15,4 +15,8 @@ public class DelegateAsignacion {
     public List<Asignacion> obtenerUnidadesConHoras() {
         return dao.obtenerUnidadesConHoras();
     }
+
+    public List<Object[]> getHorarioProfesor(int idProfesor) {
+        return dao.getHorarioProfesor(idProfesor);
+    }
 }

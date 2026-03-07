@@ -3,6 +3,7 @@ package ui;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ComponentSystemEvent;
 import jakarta.inject.Named;
 import mx.sauap_db.entity.Usuario;
 import mx.sauap_db.desarrollo.facade.FacadeUsuario;
@@ -25,12 +26,9 @@ public class LoginBean implements Serializable {
         if (usuario != null) {
             System.out.println("LOG: Usuario encontrado. Rol en BD: " + usuario.getRol());
 
-            // Redirección para Administrador
-            if ("ADMINISTRADOR".equalsIgnoreCase(usuario.getRol())) { //ignorecase no importan las mayus o minus
+            if ("ADMINISTRADOR".equalsIgnoreCase(usuario.getRol())) {
                 return "admin?faces-redirect=true";
-            }
-            // Redirección para Profesor
-            else if ("PROFESOR".equalsIgnoreCase(usuario.getRol())) { //ignorecase
+            } else if ("PROFESOR".equalsIgnoreCase(usuario.getRol())) {
                 return "profesor?faces-redirect=true";
             }
         } else {
@@ -40,8 +38,7 @@ public class LoginBean implements Serializable {
         return null;
     }
 
-    // Asegúrate de tener este métodopara proteger la página de profesor
-    public void verificarProfesor() {
+    public void verificarProfesor(ComponentSystemEvent event) {
         if (usuario == null || !"PROFESOR".equalsIgnoreCase(usuario.getRol())) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
@@ -50,7 +47,8 @@ public class LoginBean implements Serializable {
             }
         }
     }
-    public void verificarAdmin() {
+
+    public void verificarAdmin(ComponentSystemEvent event) {
         if (usuario == null || !"ADMINISTRADOR".equalsIgnoreCase(usuario.getRol())) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
@@ -65,23 +63,9 @@ public class LoginBean implements Serializable {
         return "login?faces-redirect=true";
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public Usuario getUsuario() { return usuario; }
 }
