@@ -33,7 +33,6 @@ public class FacadeUnidadAprendizaje {
         return delegate.buscarPorId(id);
     }
 
-    /** Valida nombre único. Si idExcluir > 0 ignora ese registro (útil al modificar). */
     public boolean nombreDisponible(String nombre, int idExcluir) {
         UnidadAprendizaje existente = delegate.buscarPorNombre(nombre);
         if (existente == null) return true;
