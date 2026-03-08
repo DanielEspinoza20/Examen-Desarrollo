@@ -8,6 +8,7 @@ import mx.sauap_db.desarrollo.facade.FacadeProfesor;
 import mx.sauap_db.entity.Profesor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Named("profesorBean")
 @SessionScoped
@@ -106,6 +107,10 @@ public class ProfesorBean implements Serializable {
         }
     }
 
+    // ── CONSULTA GENERAL ─────────────────────────────────────────
+    public List<Profesor> listarTodos() {
+        return facade.listarTodos();
+    }
 
     //RESET
     private void resetBusqueda() {
