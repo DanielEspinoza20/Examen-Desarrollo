@@ -173,7 +173,6 @@
                              requiredMessage="El apellido materno es obligatorio" />
                 <h:message for="aMaterno" styleClass="ui-message-error-detail" />
             </div>
-
             <div class="form-group">
                 <label>RFC:</label>
                 <h:inputText id="rfc"
@@ -181,12 +180,11 @@
                              maxlength="13"
                              placeholder="Ej. GARL850101AB1"
                              required="true"
-                             requiredMessage="El RFC es obligatorio">
-                    <f:validateRegex pattern="[A-Z&amp;Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}"
-                                     message="El RFC no tiene el formato correcto" />
+                             requiredMessage="El RFC es obligatorio"
+                             validatorMessage="El RFC no es correcto">
+                    <f:validateRegex pattern="[A-Z&amp;Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}" />
                 </h:inputText>
                 <h:message for="rfc" styleClass="ui-message-error-detail" />
-                <span class="hint-rfc">Formato: 3-4 letras + 6 dígitos + 3 alfanuméricos. Ej: GARL850101AB1</span>
             </div>
 
             <p:commandButton value="Registrar"
