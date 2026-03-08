@@ -14,6 +14,9 @@ public class FacadeProfesor {
     public void modificar(Profesor p) {
         delegate.modificar(p);
     }
+    public void eliminar(Profesor p) {
+        delegate.eliminar(p);
+    }
 
     public Profesor buscarPorRfc(String rfc) {
         return delegate.buscarPorRfc(rfc);
@@ -23,6 +26,9 @@ public class FacadeProfesor {
         Profesor existente = delegate.buscarPorRfc(rfc);
         if (existente == null) return true;
         return idExcluir > 0 && existente.getId() == idExcluir;
+    }
+    public Profesor buscarPorId(int id) {
+        return delegate.buscarPorId(id);
     }
 
 }

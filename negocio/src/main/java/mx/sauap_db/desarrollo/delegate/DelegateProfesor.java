@@ -14,9 +14,15 @@ public class DelegateProfesor {
     public void modificar(Profesor p) {
         profesorDAO.modificar(p);
     }
+    public void eliminar(Profesor p) {
+        profesorDAO.eliminar(p);
+    }
 
     public Profesor buscarPorRfc(String rfc) {
         return profesorDAO.buscarPorRfc(rfc);
+    }
+    public Profesor buscarPorId(int id) {
+        return profesorDAO.buscarPorId(id);
     }
 
     public boolean existeRfc(String rfc) {

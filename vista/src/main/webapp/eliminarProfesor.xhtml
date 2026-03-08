@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eliminar Profesor - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 24px;
+            position: relative;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px 36px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 6px 28px rgba(0,0,0,0.13);
+        }
+
+        .form-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e4d8c;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .search-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .search-section input,
+        .search-section .ui-inputfield {
+            flex: 1;
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #222;
+            text-transform: uppercase;
+            width: 100%;
+        }
+        .search-section input:focus,.search-section .ui-inputfield:focus{
+            border-color: #3ab8b8;
+            box-shadow: 0 0 0 3px rgba(58,184,0.15);
+        }
+        .hint{
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        .hint.found{
+            color: #2e7d32;
+            font-style: normal;
+            font-weight: 600;
+        }
+        .hint.notfound{
+            color: #c62828;
+            font-style: normal;
+        }
+        .divider{
+            border: none;
+            border-top: 1.5px dashed #dde;
+            margin-bottom: 20px;
+        }
+
+        .info-card{
+            background: #f0faf4;
+            border: 1px solid #a5d6a7;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+        .info-title{
+            font-size: 13px;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 12px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .info-row{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .info-row:last-child{
+            border-bottom: none;
+        }
+        .info-label{
+            font-weight: 600;
+            color: #555;
+        }
+        .info-value{
+            color: #222;
+        }
+
+        .warning-card{
+            background: #fff3e0;
+            border: 1px solid #ffcc80;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 16pc;
+            font-size: 13px;
+            color: #e65100;
+            text-align: center;
+            font-weight: 600;
+        }
+        .btn-eliminar{
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ef5350, #c62828);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(200,40,40,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-eliminar:hover{
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+        }
+        .btn-eliminar:active {
+            transform: scale(0.98);
+        }
+
+        .btn-buscar{
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+        }
+
+        .btn-buscar{
+            background: linear-gradient(135deg, #3ab8b8, #2aa0a0);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-buscar:hover{
+            background: linear-gradient(135deg, #2aa0a0, #1a8888);
+        }
+        .btn-buscar:active{
+            transform: scale(0.97);
+        }
+
+        .btn-regresar{
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-regresar:hover{
+            background: linear-gradient(135deg, #43a363, #2e8a4c);
+        }
+        .btn-regresar:active{
+            transform: scale(0.97);
+        }
+</style>
+</h:head>
+
+<h:body>
+    <p:growl id="mensajes" showDetail="true" life="3500" />
+
+    <div class="form-card">
+        <h2>Eliminar Profesor</h2>
+
+        <h:form id="formBuscar">
+            <div class="search-section">
+                <h:inputText id="rfcBusqueda"
+                             value="#{profesorBean.rfcBusqueda}"
+                             maxlength="13"
+                             placeholder="RFC del profesor a eliminar..."
+                             style="text-transform:uppercase" />
+
+                <p:commandButton value="Buscar"
+                                 action="#{profesorBean.buscar}"
+                                 update="@form mensajes"
+                                 styleClass="btn-buscar" />
+            </div>
+
+            <p class="hint #{profesorBean.busquedaRealizada ? (profesorBean.profesorEncontrado ? 'found' : 'notfound') : ''}">
+                #{profesorBean.mensajeBusqueda}
+            </p>
+
+            <p:outputPanel id="infoPanel" rendered="#{profesorBean.profesorEncontrado}">
+                <div class="info-card">
+                    <p>
+                        <strong>Nombre:</strong> #{profesorBean.profesor.nombre}<br />
+                        <strong>RFC:</strong> #{profesorBean.profesor.rfc}<br />
+                        <strong>ID:</strong> #{profesorBean.profesor.id}
+                    </p>
+                </div>
+
+                <p:commandButton value="Eliminar Profesor"
+                                 action="#{profesorBean.eliminar}"
+                                 update="@form mensajes"
+                                 styleClass="btn-eliminar"
+                                 onclick="return confirm('¿Seguro que deseas eliminar al profesor #{profesorBean.profesor.nombre}?')">
+                </p:commandButton>
+            </p:outputPanel>
+        </h:form>
+    </div>
+
+    <h:form id="formRegresar">
+        <p:commandButton value="Regresar"
+                         action="adminProfesor?faces-redirect=true"
+                         styleClass="btn-regresar"
+                         immediate="true" />
+    </h:form>
+</h:body>
+</html>
