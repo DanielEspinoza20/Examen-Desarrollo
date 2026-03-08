@@ -24,6 +24,9 @@ public class ProfesorDAO extends AbstractDAO<Profesor> {
     public void modificar(Profesor p) {
         update(p);
     }
+    public void eliminar(Profesor p) {
+        delete(p);
+    }
 
     public Profesor buscarPorRfc(String rfc) {
         return execute(em -> {
@@ -40,6 +43,10 @@ public class ProfesorDAO extends AbstractDAO<Profesor> {
 
     public boolean existeRfc(String rfc) {
         return buscarPorRfc(rfc) != null;
+    }
+
+    public Profesor buscarPorId(int id) {
+        return find(id).orElse(null);
     }
 }
 

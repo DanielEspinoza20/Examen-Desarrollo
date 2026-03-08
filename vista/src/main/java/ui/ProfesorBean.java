@@ -86,6 +86,27 @@ public class ProfesorBean implements Serializable {
         }
     }
 
+    public void eliminar() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+
+        if (profesor == null || profesor.getId() == null || profesor.getId() == 0) {
+            ctx.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_WARN, "Aviso", "Primero busca un profesor"));
+            return;
+        }
+        try {
+            facade.eliminar(profesor);
+            ctx.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "Éxito", "Profesor eliminado correctamente"));
+            resetBusqueda();
+        } catch (Exception e) {
+            ctx.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Error",
+                    "No se pudo eliminar. Es posible que el profesor tenga asignaciones activas."));
+        }
+    }
+
+
     //RESET
     private void resetBusqueda() {
         profesor = new Profesor();
