@@ -4,6 +4,7 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
+import mx.sauap_db.desarrollo.facade.FacadeAsignacion;
 import mx.sauap_db.desarrollo.facade.FacadeProfesor;
 import mx.sauap_db.entity.Profesor;
 
@@ -95,6 +96,16 @@ public class ProfesorBean implements Serializable {
                     FacesMessage.SEVERITY_WARN, "Aviso", "Primero busca un profesor"));
             return;
         }
+
+        // Validar que no tenga asignaciones activas
+        FacadeAsignacion facadeAsignacion = new FacadeAsignacion();
+        if (facadeAsignacion.tieneAsignacionesProfesor(profesor)) {
+            ctx.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "No se puede eliminar",
+                    "El profesor tiene asignaciones activas. Elimina primero las asignaciones."));
+            return;
+        }
+
         try {
             facade.eliminar(profesor);
             ctx.addMessage(null, new FacesMessage(
@@ -102,8 +113,7 @@ public class ProfesorBean implements Serializable {
             resetBusqueda();
         } catch (Exception e) {
             ctx.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "Error",
-                    "No se pudo eliminar. Es posible que el profesor tenga asignaciones activas."));
+                    FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar: " + e.getMessage()));
         }
     }
 

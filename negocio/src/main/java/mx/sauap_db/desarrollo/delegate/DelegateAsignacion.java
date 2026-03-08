@@ -69,4 +69,12 @@ public class DelegateAsignacion {
     public UnidadAprendizaje buscarUnidad(Integer id) {
         return asignacionDAO.buscarUnidad(id);
     }
+
+    public boolean tieneAsignacionesProfesor(Profesor profesor) {
+        return asignacionDAO.tieneAsignacionesProfesor(profesor);
+    }
+
+    public boolean tieneAsignacionesUnidad(Integer idUnidad) {
+        return asignacionDAO.tieneAsignacionesUnidad(idUnidad);
+    }
 }
