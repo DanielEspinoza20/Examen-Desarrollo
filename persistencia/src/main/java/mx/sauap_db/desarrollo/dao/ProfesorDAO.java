@@ -6,6 +6,8 @@ import mx.sauap_db.desarrollo.persistence.AbstractDAO;
 import mx.sauap_db.desarrollo.persistence.HibernateUtil;
 import mx.sauap_db.entity.Profesor;
 
+import java.util.List;
+
 public class ProfesorDAO extends AbstractDAO<Profesor> {
 
     public ProfesorDAO() {
@@ -24,8 +26,13 @@ public class ProfesorDAO extends AbstractDAO<Profesor> {
     public void modificar(Profesor p) {
         update(p);
     }
+
     public void eliminar(Profesor p) {
         delete(p);
+    }
+
+    public List<Profesor> listarTodos() {
+        return findAll();
     }
 
     public Profesor buscarPorRfc(String rfc) {

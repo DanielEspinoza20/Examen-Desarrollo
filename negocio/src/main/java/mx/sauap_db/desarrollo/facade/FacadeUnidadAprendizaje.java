@@ -1,5 +1,6 @@
 package mx.sauap_db.desarrollo.facade;
 
+import mx.sauap_db.desarrollo.dao.UnidadAprendizajeDAO;
 import mx.sauap_db.desarrollo.delegate.DelegateUnidadAprendizaje;
 import mx.sauap_db.entity.UnidadAprendizaje;
 

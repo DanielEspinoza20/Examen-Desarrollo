@@ -3,6 +3,8 @@ package mx.sauap_db.desarrollo.facade;
 import mx.sauap_db.desarrollo.delegate.DelegateProfesor;
 import mx.sauap_db.entity.Profesor;
 
+import java.util.List;
+
 public class FacadeProfesor {
 
     private final DelegateProfesor delegate = new DelegateProfesor();
@@ -14,8 +16,13 @@ public class FacadeProfesor {
     public void modificar(Profesor p) {
         delegate.modificar(p);
     }
+
     public void eliminar(Profesor p) {
         delegate.eliminar(p);
+    }
+
+    public List<Profesor> listarTodos() {
+        return delegate.listarTodos();
     }
 
     public Profesor buscarPorRfc(String rfc) {
