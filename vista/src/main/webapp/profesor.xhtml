@@ -2,14 +2,16 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core">
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:c="jakarta.tags.core">
 <h:head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bienvenido Profesor - SAUAP</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
     <style>
-         {
+        {
             box-sizing: border-box; margin: 0; padding: 0;
         }
 
@@ -147,77 +149,59 @@
 </h:head>
 
 <h:body>
+    <!-- Verificar sesión de profesor -->
+    <f:event type="preRenderView" listener="#{loginBean.verificarProfesor}"/>
+
     <div class="title-card">
         <h1>BIENVENIDO – PROFESOR</h1>
-        <p>Hola, <b>#{loginBean.usuario.username}</b>. Este es tu horario actual.</p>
+        <p>Hola, <b>#{profesorSesionBean.nombreCompleto}</b>. Este es tu horario actual.</p>
     </div>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-            <tr>
-                <th>Horas</th>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
-                <th>Sábado</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>7:00am</td>
-                <td><span class="tag tag-clase">Clase 1</span></td>
-                <td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>8:00am</td>
-                <td><span class="tag tag-clase">Clase 1</span></td>
-                <td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>9:00am</td>
-                <td><span class="tag tag-clase">Clase 1</span></td>
-                <td></td>
-                <td><span class="tag tag-taller">Taller</span></td>
-                <td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>10:00am</td>
-                <td><span class="tag tag-clase">Clase 1</span></td>
-                <td></td>
-                <td><span class="tag tag-taller">Taller</span></td>
-                <td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>11:00am</td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td>12:00pm</td>
-                <td></td><td></td><td></td><td></td>
-                <td><span class="tag tag-lab">Lab</span></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1:00pm</td>
-                <td></td><td></td><td></td><td></td>
-                <td><span class="tag tag-lab">Lab</span></td>
-                <td></td>
-            </tr>
-            <tr><td>2:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>3:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>4:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>5:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>6:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>7:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>8:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>9:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>10:00pm</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            </tbody>
-        </table>
-    </div>
+    <!-- Mensaje si no tiene asignaciones -->
+    <h:panelGroup rendered="#{!profesorSesionBean.tieneAsignaciones}">
+        <div style="background:white; border-radius:14px; padding:2rem 3rem;
+                    box-shadow:0 4px 20px rgba(0,0,0,0.12); text-align:center; color:#888;">
+            <p style="font-size:1.1rem;">📭 No tienes unidades de aprendizaje asignadas por el momento.</p>
+        </div>
+    </h:panelGroup>
+
+    <!-- Tabla de horario dinámica -->
+    <h:panelGroup rendered="#{profesorSesionBean.tieneAsignaciones}">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Horas</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                    <th>Sábado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Una fila por cada hora del día 7am-10pm -->
+                <ui:repeat var="hora" value="#{profesorSesionBean.horasDelDia}">
+                    <tr>
+                        <td>#{hora}</td>
+                        <!-- Una celda por cada día -->
+                        <ui:repeat var="dia" value="#{profesorSesionBean.diasSemana}">
+                            <td>
+                                <!-- Buscar asignación que coincida con este día y hora -->
+                                <ui:repeat var="a" value="#{profesorSesionBean.asignaciones}">
+                                    <h:panelGroup rendered="#{profesorSesionBean.coincide(a, dia, hora)}">
+                                        <span class="tag tag-clase">#{a.idUnidad.nombreUnidad}</span>
+                                    </h:panelGroup>
+                                </ui:repeat>
+                            </td>
+                        </ui:repeat>
+                    </tr>
+                </ui:repeat>
+                </tbody>
+            </table>
+        </div>
+    </h:panelGroup>
 
     <div class="footer">
         <h:form>
