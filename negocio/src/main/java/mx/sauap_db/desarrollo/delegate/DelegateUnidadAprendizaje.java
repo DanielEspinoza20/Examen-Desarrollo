@@ -1,6 +1,8 @@
 package mx.sauap_db.desarrollo.delegate;
 
+import jakarta.persistence.EntityManager;
 import mx.sauap_db.desarrollo.dao.UnidadAprendizajeDAO;
+import mx.sauap_db.desarrollo.persistence.HibernateUtil;
 import mx.sauap_db.entity.UnidadAprendizaje;
 
 import java.util.List;

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consulta Profesores - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            display: flex; align-items: center; justify-content: center;
+            padding: 28px 24px 80px 24px;
+        }
+
+        .card {
+            background: white; border-radius: 20px; padding: 28px;
+            box-shadow: 0 6px 28px rgba(0,0,0,0.13);
+            width: 100%; max-width: 860px;
+        }
+
+        .card h2 {
+            font-size: 19px; font-weight: 700; color: #1e4d8c;
+            text-align: center; margin-bottom: 20px;
+        }
+
+        /* Tabla PrimeFaces */
+        .ui-datatable thead th {
+            background: #4a7fc1 !important; color: white !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 14px !important; font-weight: 700 !important;
+            text-align: center !important; padding: 14px 12px !important;
+            border-right: 1px solid rgba(255,255,255,0.25) !important;
+        }
+
+        .ui-datatable tbody td {
+            padding: 14px 12px !important; font-size: 13px !important;
+            color: #333 !important; text-align: center !important;
+            border-right: 1px solid #c5d5ea !important;
+            font-family: 'Outfit', sans-serif !important;
+        }
+
+        .ui-datatable tbody td:first-child {
+            font-weight: 600 !important; color: #1e4d8c !important;
+        }
+
+        .ui-datatable tbody tr:nth-child(odd)  { background: #eef3fb !important; }
+        .ui-datatable tbody tr:nth-child(even) { background: #dce7f5 !important; }
+        .ui-datatable tbody tr:hover           { background: #cfdaef !important; }
+
+        .ui-datatable-scrollable-body::-webkit-scrollbar { width: 8px; }
+        .ui-datatable-scrollable-body::-webkit-scrollbar-track { background: #e8eef8; }
+        .ui-datatable-scrollable-body::-webkit-scrollbar-thumb { background: #4a7fc1; border-radius: 4px; }
+
+        .btn-regresar {
+            position: fixed; bottom: 24px; left: 24px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a); color: white;
+            border: none; border-radius: 8px; padding: 11px 28px;
+            font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+            cursor: pointer; box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-regresar:hover  { background: linear-gradient(135deg, #43a363, #2e8a4c); }
+        .btn-regresar:active { transform: scale(0.97); }
+    </style>
+</h:head>
+
+<h:body>
+
+    <f:metadata>
+        <f:viewAction action="#{loginBean.verificarAdmin}" />
+    </f:metadata>
+
+    <div class="card">
+        <h2>Lista de profesores</h2>
+
+        <p:dataTable value="#{profesorBean.listarTodos()}"
+                     var="prof"
+                     emptyMessage="No hay profesores registrados">
+
+            <p:column headerText="ID">
+                <h:outputText value="#{prof.id}" />
+            </p:column>
+
+            <p:column headerText="Nombre">
+                <h:outputText value="#{prof.nombre}" />
+            </p:column>
+
+            <p:column headerText="Apellido Paterno">
+                <h:outputText value="#{prof.apellidoPaterno}" />
+            </p:column>
+
+            <p:column headerText="Apellido Materno">
+                <h:outputText value="#{prof.apellidoMaterno}" />
+            </p:column>
+
+            <p:column headerText="RFC">
+                <h:outputText value="#{prof.rfc}" />
+            </p:column>
+
+        </p:dataTable>
+    </div>
+
+    <h:form id="formRegresar">
+        <p:commandButton value="Regresar"
+                         action="menu_consulta_general?faces-redirect=true"
+                         styleClass="btn-regresar"
+                         immediate="true" />
+    </h:form>
+
+</h:body>
+</html>

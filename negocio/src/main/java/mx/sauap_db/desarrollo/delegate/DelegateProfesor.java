@@ -3,6 +3,8 @@ package mx.sauap_db.desarrollo.delegate;
 import mx.sauap_db.desarrollo.dao.ProfesorDAO;
 import mx.sauap_db.entity.Profesor;
 
+import java.util.List;
+
 public class DelegateProfesor {
 
     private final ProfesorDAO profesorDAO = new ProfesorDAO();
@@ -14,13 +16,19 @@ public class DelegateProfesor {
     public void modificar(Profesor p) {
         profesorDAO.modificar(p);
     }
+
     public void eliminar(Profesor p) {
         profesorDAO.eliminar(p);
+    }
+
+    public List<Profesor> listarTodos() {
+        return profesorDAO.listarTodos();
     }
 
     public Profesor buscarPorRfc(String rfc) {
         return profesorDAO.buscarPorRfc(rfc);
     }
+
     public Profesor buscarPorId(int id) {
         return profesorDAO.buscarPorId(id);
     }
