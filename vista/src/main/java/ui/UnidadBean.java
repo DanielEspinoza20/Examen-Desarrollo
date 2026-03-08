@@ -5,6 +5,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import mx.sauap_db.desarrollo.dao.UnidadAprendizajeDAO;
+import mx.sauap_db.desarrollo.facade.FacadeAsignacion;
 import mx.sauap_db.desarrollo.facade.FacadeUnidadAprendizaje;
 import mx.sauap_db.entity.UnidadAprendizaje;
 
@@ -96,6 +97,16 @@ public class UnidadBean implements Serializable {
                     FacesMessage.SEVERITY_WARN, "Aviso", "Primero busca una unidad"));
             return;
         }
+
+        // Validar que no tenga profesores asignados
+        FacadeAsignacion facadeAsignacion = new FacadeAsignacion();
+        if (facadeAsignacion.tieneAsignacionesUnidad(unidad.getId())) {
+            ctx.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "No se puede eliminar",
+                    "La unidad tiene profesores asignados. Elimina primero las asignaciones."));
+            return;
+        }
+
         try {
             facade.eliminar(unidad.getId());
             ctx.addMessage(null, new FacesMessage(

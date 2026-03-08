@@ -180,6 +180,40 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         }
     }
 
+    // ── Verifica si un profesor tiene asignaciones activas
+    public boolean tieneAsignacionesProfesor(Profesor profesor) {
+        EntityManager em = getEntityManager();
+        try {
+            Long count = em.createQuery(
+                            "SELECT COUNT(a) FROM Asignacion a WHERE a.idProfesor = :prof",
+                            Long.class)
+                    .setParameter("prof", profesor)
+                    .getSingleResult();
+            return count > 0;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
+    // ── Verifica si una unidad tiene profesores asignados
+    public boolean tieneAsignacionesUnidad(Integer idUnidad) {
+        EntityManager em = getEntityManager();
+        try {
+            Long count = em.createQuery(
+                            "SELECT COUNT(a) FROM Asignacion a WHERE a.idUnidad.id = :idUnidad",
+                            Long.class)
+                    .setParameter("idUnidad", idUnidad)
+                    .getSingleResult();
+            return count > 0;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
     // ── Traslape normal (para registrar)
     public boolean existeTraslape(Profesor profesor, String diaSemana,
                                   LocalTime horaInicio, LocalTime horaFin) {

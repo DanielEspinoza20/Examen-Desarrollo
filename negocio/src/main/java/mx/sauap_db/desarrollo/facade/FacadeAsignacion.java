@@ -66,4 +66,12 @@ public class FacadeAsignacion {
     public UnidadAprendizaje buscarUnidad(Integer id) {
         return delegateAsignacion.buscarUnidad(id);
     }
+
+    public boolean tieneAsignacionesProfesor(Profesor profesor) {
+        return delegateAsignacion.tieneAsignacionesProfesor(profesor);
+    }
+
+    public boolean tieneAsignacionesUnidad(Integer idUnidad) {
+        return delegateAsignacion.tieneAsignacionesUnidad(idUnidad);
+    }
 }
