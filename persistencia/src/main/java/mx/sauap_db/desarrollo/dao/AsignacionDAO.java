@@ -42,7 +42,10 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         EntityManager em = getEntityManager();
         try {
             return em.createQuery(
-                            "SELECT a FROM Asignacion a WHERE a.idProfesor = :prof",
+                            "SELECT a FROM Asignacion a " +
+                                    "JOIN FETCH a.idUnidad " +
+                                    "JOIN FETCH a.idProfesor " +
+                                    "WHERE a.idProfesor = :prof",
                             Asignacion.class)
                     .setParameter("prof", profesor)
                     .getResultList();

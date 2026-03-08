@@ -27,6 +27,10 @@ public class Usuario {
     @Column(name = "rol", nullable = false)
     private String rol;
 
+    @Size(max = 13)
+    @Column(name = "rfc", length = 13)
+    private String rfc;
+
     public Integer getId() {
         return id;
     }
@@ -57,6 +61,14 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getRfc() {
+        return rfc;
+    }
+
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
     }
 
 }
