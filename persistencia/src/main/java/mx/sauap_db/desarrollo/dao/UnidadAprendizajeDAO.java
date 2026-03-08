@@ -26,8 +26,8 @@ public class UnidadAprendizajeDAO extends AbstractDAO<UnidadAprendizaje> {
 
     public List<UnidadAprendizaje> listarTodas() {
         List<UnidadAprendizaje> lista = findAll();
-        System.out.println(">>> listarTodas() resultado: " + lista.size());
-        return findAll();
+        System.out.println(">>> resultado: " + lista.size());
+        return lista; // ← devuelve la que ya tienes
     }
 
     public UnidadAprendizajeDAO() {
