@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      lang="es">
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eliminar Asignación - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 24px 32px 80px 32px;
+        }
+
+        .jsf-msg-ok {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: #fffbe6; border-radius: 12px; padding: 14px 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15); font-size: 14px;
+            min-width: 200px; max-width: 300px;
+        }
+        .jsf-msg-err {
+            position: fixed; top: 20px; right: 20px; z-index: 100;
+            background: #fffbe6; border-radius: 12px; padding: 14px 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15); font-size: 14px;
+            min-width: 200px; max-width: 300px;
+        }
+
+        .title-wrap { text-align: center; margin-bottom: 20px; }
+        .title-wrap span {
+            background: white; border-radius: 10px; padding: 10px 40px;
+            font-size: 18px; font-weight: 700; color: #1e4d8c;
+            display: inline-block; box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            background: white; border-radius: 16px; padding: 22px 28px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.1); margin-bottom: 16px;
+        }
+        .search-card { max-width: 560px; margin: 0 auto 20px auto; }
+        .card-label { font-size: 14px; font-weight: 600; color: #444; margin-bottom: 16px; }
+
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+        .form-group label { font-size: 14px; font-weight: 500; color: #333; }
+        .search-row { display: flex; gap: 10px; align-items: flex-end; }
+
+        select {
+            border: 1.5px solid #333; border-radius: 8px; padding: 10px 12px;
+            font-family: 'Outfit', sans-serif; font-size: 14px; color: #222;
+            background: white; width: 100%; outline: none;
+            padding-right: 36px; cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath fill='%23222' d='M7 10L0 0h14z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        select:focus { border-color: #3ab8b8; box-shadow: 0 0 0 3px rgba(58,184,184,0.15); }
+
+        .btn-buscar {
+            background: linear-gradient(135deg, #3ab8b8, #2aa0a0); color: white;
+            border: none; border-radius: 8px; padding: 10px 20px;
+            font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+            cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.1s;
+        }
+        .btn-buscar:hover  { background: linear-gradient(135deg, #2aa0a0, #1a8888); }
+        .btn-buscar:active { transform: scale(0.97); }
+
+        .horarios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+        .horario-block {
+            border: 1.5px solid #333; border-radius: 12px;
+            padding: 16px; display: flex; flex-direction: column; gap: 10px; background: white;
+        }
+        .horario-title {
+            font-size: 15px; font-weight: 600; color: #1e4d8c;
+            text-align: center; padding-bottom: 10px; border-bottom: 1px solid #eee;
+        }
+        .horario-info { font-size: 13px; color: #444; }
+        .horario-info span { font-weight: 600; color: #1e4d8c; }
+        .sin-registro { font-size: 13px; color: #aaa; text-align: center; font-style: italic; margin-top: 8px; }
+
+        .btn-eliminar-todo {
+            display: block; width: 100%; max-width: 340px; margin: 0 auto;
+            padding: 13px; background: #c62828; color: white;
+            border: none; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 3px 10px rgba(198,40,40,0.3);
+        }
+        .btn-eliminar-todo:hover  { background: #b71c1c; }
+        .btn-eliminar-todo:active { transform: scale(0.98); }
+
+        .btn-regresar {
+            position: fixed; bottom: 24px; left: 24px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a); color: white;
+            border: none; border-radius: 8px; padding: 11px 28px;
+            font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+            cursor: pointer; box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-regresar:hover  { background: linear-gradient(135deg, #43a363, #2e8a4c); }
+        .btn-regresar:active { transform: scale(0.97); }
+    </style>
+</h:head>
+<h:body>
+    <h:form id="formEliminar">
+
+        <h:messages id="msgs" layout="list"
+                    infoClass="jsf-msg-ok"
+                    errorClass="jsf-msg-err" />
+
+        <div class="title-wrap">
+            <span>Eliminar Asignación de Unidad</span>
+        </div>
+
+        <!-- ── Búsqueda ── -->
+        <div class="card search-card">
+            <div class="card-label">Buscar asignación:</div>
+
+            <div class="form-group">
+                <h:outputLabel value="Profesor:" />
+                <h:selectOneMenu value="#{eliminarAsignacionBean.idProfesorSel}">
+                    <f:selectItem itemValue="" itemLabel="Seleccione un profesor:" />
+                    <f:selectItems value="#{eliminarAsignacionBean.profesores}"
+                                   var="p"
+                                   itemValue="#{p.id}"
+                                   itemLabel="#{p.apellidoPaterno} #{p.apellidoMaterno} #{p.nombre}" />
+                </h:selectOneMenu>
+            </div>
+
+            <div class="form-group">
+                <h:outputLabel value="Unidad de aprendizaje:" />
+                <div class="search-row">
+                    <h:selectOneMenu value="#{eliminarAsignacionBean.idUnidadSel}">
+                        <f:selectItem itemValue="" itemLabel="Seleccione una unidad de aprendizaje:" />
+                        <f:selectItems value="#{eliminarAsignacionBean.unidades}"
+                                       var="u"
+                                       itemValue="#{u.id}"
+                                       itemLabel="#{u.nombreUnidad}" />
+                    </h:selectOneMenu>
+                    <h:commandButton value="Buscar"
+                                     action="#{eliminarAsignacionBean.buscar}"
+                                     styleClass="btn-buscar" />
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Resultados ── -->
+        <h:panelGroup layout="block" id="resultadosPanel"
+                      rendered="#{eliminarAsignacionBean.asignacionEncontrada}">
+            <div class="card">
+                <div class="card-label">Asignaciones encontradas:</div>
+
+                <div class="horarios-grid">
+
+                    <!-- Clase -->
+                    <div class="horario-block">
+                        <div class="horario-title">Clase</div>
+                        <h:panelGroup layout="block" id="infoClase"
+                                      rendered="#{eliminarAsignacionBean.idAsignacionClase != null}">
+                            <p class="horario-info">Día: <span>#{eliminarAsignacionBean.diaClase}</span></p>
+                            <p class="horario-info">Inicio: <span>#{eliminarAsignacionBean.inicioClase}:00</span></p>
+                            <p class="horario-info">Fin: <span>#{eliminarAsignacionBean.finClase}:00</span></p>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" id="sinClase"
+                                      rendered="#{eliminarAsignacionBean.idAsignacionClase == null}">
+                            <p class="sin-registro">Sin registro</p>
+                        </h:panelGroup>
+                    </div>
+
+                    <!-- Taller -->
+                    <div class="horario-block">
+                        <div class="horario-title">Taller</div>
+                        <h:panelGroup layout="block" id="infoTaller"
+                                      rendered="#{eliminarAsignacionBean.idAsignacionTaller != null}">
+                            <p class="horario-info">Día: <span>#{eliminarAsignacionBean.diaTaller}</span></p>
+                            <p class="horario-info">Inicio: <span>#{eliminarAsignacionBean.inicioTaller}:00</span></p>
+                            <p class="horario-info">Fin: <span>#{eliminarAsignacionBean.finTaller}:00</span></p>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" id="sinTaller"
+                                      rendered="#{eliminarAsignacionBean.idAsignacionTaller == null}">
+                            <p class="sin-registro">Sin registro</p>
+                        </h:panelGroup>
+                    </div>
+
+                    <!-- Laboratorio -->
+                    <div class="horario-block">
+                        <div class="horario-title">Laboratorio</div>
+                        <h:panelGroup layout="block" id="infoLab"
+                                      rendered="#{eliminarAsignacionBean.idAsignacionLab != null}">
+                            <p class="horario-info">Día: <span>#{eliminarAsignacionBean.diaLab}</span></p>
+                            <p class="horario-info">Inicio: <span>#{eliminarAsignacionBean.inicioLab}:00</span></p>
+                            <p class="horario-info">Fin: <span>#{eliminarAsignacionBean.finLab}:00</span></p>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" id="sinLab"
+                                      rendered="#{eliminarAsignacionBean.idAsignacionLab == null}">
+                            <p class="sin-registro">Sin registro</p>
+                        </h:panelGroup>
+                    </div>
+
+                </div>
+
+                <!-- Botón único eliminar todo -->
+                <h:commandButton value="Eliminar toda la asignación"
+                                 action="#{eliminarAsignacionBean.eliminarTodo}"
+                                 styleClass="btn-eliminar-todo"
+                                 onclick="return confirm('¿Eliminar TODOS los registros de esta asignación (Clase, Taller y Laboratorio)?')" />
+            </div>
+        </h:panelGroup>
+
+        <h:commandButton value="Regresar"
+                         action="menuAsignacion?faces-redirect=true"
+                         styleClass="btn-regresar" />
+
+    </h:form>
+</h:body>
+</html>

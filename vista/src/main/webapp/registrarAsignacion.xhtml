@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      lang="es">
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asignación de Unidad - SAUAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4a90c4 0%, #3ab8b8 50%, #2dcca0 100%);
+            padding: 24px 32px 80px 32px;
+            position: relative;
+        }
+
+        /* ── Mensajes JSF (reemplazan los toasts) ── */
+        .jsf-msg-ok {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: #fffbe6; border-radius: 12px; padding: 14px 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15); font-size: 14px;
+            min-width: 200px; max-width: 300px;
+        }
+        .jsf-msg-ok .titulo  { font-weight: 700; font-size: 15px; color: #2e7d32; margin-bottom: 4px; }
+        .jsf-msg-err {
+            position: fixed; top: 20px; right: 20px; z-index: 100;
+            background: #fffbe6; border-radius: 12px; padding: 14px 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15); font-size: 14px;
+            min-width: 200px; max-width: 300px;
+        }
+        .jsf-msg-err .titulo { font-weight: 700; font-size: 15px; color: #c62828; margin-bottom: 4px; }
+        .msg-text { font-size: 13px; color: #555; }
+
+        /* ── Page title ── */
+        .page-title { text-align: center; margin-bottom: 18px; }
+        .page-title span {
+            background: white; border-radius: 10px; padding: 10px 40px;
+            font-size: 18px; font-weight: 700; color: #1e4d8c;
+            display: inline-block; box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: white; border-radius: 16px; padding: 22px 28px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.1); margin-bottom: 16px;
+        }
+        .card-label { font-size: 14px; font-weight: 600; color: #444; margin-bottom: 16px; }
+
+        /* ── Form ── */
+        .datos-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 14px; font-weight: 500; color: #333; }
+
+        select, input[type="number"] {
+            border: 1.5px solid #333; border-radius: 8px; padding: 10px 12px;
+            font-family: 'Outfit', sans-serif; font-size: 14px; color: #222;
+            background: white; width: 100%; outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        select {
+            padding-right: 36px; cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath fill='%23222' d='M7 10L0 0h14z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center;
+        }
+        select:focus, input[type="number"]:focus {
+            border-color: #3ab8b8; box-shadow: 0 0 0 3px rgba(58,184,184,0.15);
+        }
+        input[type="number"] { -moz-appearance: textfield; }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+        /* ── Horarios grid ── */
+        .horarios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .horario-block {
+            border: 1.5px solid #333; border-radius: 12px; padding: 16px;
+            display: flex; flex-direction: column; gap: 12px; background: white;
+        }
+        .horario-title {
+            font-size: 15px; font-weight: 600; color: #1e4d8c;
+            text-align: center; padding-bottom: 10px; border-bottom: 1px solid #eee;
+        }
+
+        .btn-asignar {
+            width: 100%; padding: 10px; background: white; color: #222;
+            border: 1.5px solid #333; border-radius: 8px;
+            font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500;
+            cursor: pointer; margin-top: 4px;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-asignar:hover  { background: #f0f4f8; }
+        .btn-asignar:active { transform: scale(0.98); }
+
+        /* ── Footer ── */
+        .btn-regresar {
+            position: fixed; bottom: 24px; left: 24px;
+            background: linear-gradient(135deg, #4caf6e, #3a9c5a); color: white;
+            border: none; border-radius: 8px; padding: 11px 28px;
+            font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+            cursor: pointer; box-shadow: 0 3px 10px rgba(60,160,90,0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-regresar:hover  { background: linear-gradient(135deg, #43a363, #2e8a4c); }
+        .btn-regresar:active { transform: scale(0.97); }
+    </style>
+</h:head>
+<h:body>
+    <h:form id="formAsignacion">
+
+        <!-- ── Mensajes ── -->
+        <h:messages id="msgs" layout="list"
+                    infoClass="jsf-msg-ok"  infoStyle=""
+                    errorClass="jsf-msg-err" errorStyle="" />
+
+        <!-- ── Título ── -->
+        <div class="page-title">
+            <span>Asignación de unidad</span>
+        </div>
+
+        <!-- ── Datos de asignación ── -->
+        <div class="card">
+            <div class="card-label">Datos de asignación:</div>
+            <div class="datos-row">
+
+                <div class="form-group">
+                    <h:outputLabel value="Profesor:" />
+                    <h:selectOneMenu value="#{asignacionBean.idProfesorSel}">
+                        <f:selectItem itemValue=""  itemLabel="Seleccione un profesor:" />
+                        <f:selectItems value="#{asignacionBean.profesores}"
+                                       var="p"
+                                       itemValue="#{p.id}"
+                                       itemLabel="#{p.apellidoPaterno} #{p.apellidoMaterno} #{p.nombre}" />
+                    </h:selectOneMenu>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel value="Unidad de aprendizaje:" />
+                    <h:selectOneMenu value="#{asignacionBean.idUnidadSel}">
+                        <f:selectItem itemValue="" itemLabel="Seleccione una unidad de aprendizaje:" />
+                        <f:selectItems value="#{asignacionBean.unidades}"
+                                       var="u"
+                                       itemValue="#{u.id}"
+                                       itemLabel="#{u.nombreUnidad}" />
+                    </h:selectOneMenu>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Horarios ── -->
+        <div class="card">
+            <div class="card-label">Horarios:</div>
+            <div class="horarios-grid">
+
+                <!-- Clase -->
+                <div class="horario-block">
+                    <div class="horario-title">Clase</div>
+                    <div class="form-group">
+                        <h:outputLabel value="Dia de la semana" />
+                        <h:selectOneMenu value="#{asignacionBean.diaClase}">
+                            <f:selectItem itemValue="" itemLabel=" " />
+                            <f:selectItem itemValue="Lunes"      itemLabel="Lunes" />
+                            <f:selectItem itemValue="Martes"     itemLabel="Martes" />
+                            <f:selectItem itemValue="Miércoles"  itemLabel="Miércoles" />
+                            <f:selectItem itemValue="Jueves"     itemLabel="Jueves" />
+                            <f:selectItem itemValue="Viernes"    itemLabel="Viernes" />
+                            <f:selectItem itemValue="Sábado"     itemLabel="Sábado" />
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Hora inicio: (7 – 21)" />
+                        <h:inputText value="#{asignacionBean.inicioClase}"
+                                     pt:type="number" pt:min="7" pt:max="21" pt:placeholder="Ej. 7" />
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Hora fin: (8 – 22)" />
+                        <h:inputText value="#{asignacionBean.finClase}"
+                                     pt:type="number" pt:min="8" pt:max="22" pt:placeholder="Ej. 9" />
+                    </div>
+                    <h:commandButton value="Asignar clase"
+                                     action="#{asignacionBean.asignarClase}"
+                                     styleClass="btn-asignar" />
+                </div>
+
+                <!-- Taller -->
+                <div class="horario-block">
+                    <div class="horario-title">Taller</div>
+                    <div class="form-group">
+                        <h:outputLabel value="Dia de la semana" />
+                        <h:selectOneMenu value="#{asignacionBean.diaTaller}">
+                            <f:selectItem itemValue="" itemLabel=" " />
+                            <f:selectItem itemValue="Lunes"      itemLabel="Lunes" />
+                            <f:selectItem itemValue="Martes"     itemLabel="Martes" />
+                            <f:selectItem itemValue="Miércoles"  itemLabel="Miércoles" />
+                            <f:selectItem itemValue="Jueves"     itemLabel="Jueves" />
+                            <f:selectItem itemValue="Viernes"    itemLabel="Viernes" />
+                            <f:selectItem itemValue="Sábado"     itemLabel="Sábado" />
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Hora inicio: (7 – 21)" />
+                        <h:inputText value="#{asignacionBean.inicioTaller}"
+                                     pt:type="number" pt:min="7" pt:max="21" pt:placeholder="Ej. 9" />
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Hora fin: (8 – 22)" />
+                        <h:inputText value="#{asignacionBean.finTaller}"
+                                     pt:type="number" pt:min="8" pt:max="22" pt:placeholder="Ej. 11" />
+                    </div>
+                    <h:commandButton value="Asignar taller"
+                                     action="#{asignacionBean.asignarTaller}"
+                                     styleClass="btn-asignar" />
+                </div>
+
+                <!-- Laboratorio -->
+                <div class="horario-block">
+                    <div class="horario-title">Laboratorio</div>
+                    <div class="form-group">
+                        <h:outputLabel value="Dia de la semana" />
+                        <h:selectOneMenu value="#{asignacionBean.diaLab}">
+                            <f:selectItem itemValue="" itemLabel=" " />
+                            <f:selectItem itemValue="Lunes"      itemLabel="Lunes" />
+                            <f:selectItem itemValue="Martes"     itemLabel="Martes" />
+                            <f:selectItem itemValue="Miércoles"  itemLabel="Miércoles" />
+                            <f:selectItem itemValue="Jueves"     itemLabel="Jueves" />
+                            <f:selectItem itemValue="Viernes"    itemLabel="Viernes" />
+                            <f:selectItem itemValue="Sábado"     itemLabel="Sábado" />
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Hora inicio: (7 – 21)" />
+                        <h:inputText value="#{asignacionBean.inicioLab}"
+                                     pt:type="number" pt:min="7" pt:max="21" pt:placeholder="Ej. 14" />
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Hora fin: (8 – 22)" />
+                        <h:inputText value="#{asignacionBean.finLab}"
+                                     pt:type="number" pt:min="8" pt:max="22" pt:placeholder="Ej. 16" />
+                    </div>
+                    <h:commandButton value="Asignar lab"
+                                     action="#{asignacionBean.asignarLab}"
+                                     styleClass="btn-asignar" />
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Regresar ── -->
+        <h:commandButton value="Regresar"
+                         action="menu?faces-redirect=true"
+                         styleClass="btn-regresar" />
+
+    </h:form>
+</h:body>
+</html>
