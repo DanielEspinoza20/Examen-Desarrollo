@@ -118,7 +118,6 @@
             font-style: italic;
         }
 
-        /* Mensajes de validación JSF */
         .ui-message-error-detail,
         .ui-message-error {
             color: #e53935;
@@ -196,8 +195,10 @@
                                  value="#{unidadBean.unidad.horasClase}"
                                  placeholder="0"
                                  required="true"
-                                 requiredMessage="Obligatorio">
-                        <f:validateLongRange minimum="0" maximum="4" />
+                                 requiredMessage="Obligatorio"
+                                 converterMessage="Ingresa un número (0-4)">
+                        <f:validateLongRange minimum="0" maximum="4"
+                                             message="El valor debe estar entre 0 y 4" />
                     </h:inputText>
                     <h:message for="hClase" styleClass="ui-message-error-detail" />
                 </div>
@@ -207,8 +208,10 @@
                                  value="#{unidadBean.unidad.horasTaller}"
                                  placeholder="0"
                                  required="true"
-                                 requiredMessage="Obligatorio">
-                        <f:validateLongRange minimum="0" maximum="4" />
+                                 requiredMessage="Obligatorio"
+                                 converterMessage="Ingresa un número (0-4)">
+                        <f:validateLongRange minimum="0" maximum="4"
+                                             message="El valor debe estar entre 0 y 4" />
                     </h:inputText>
                     <h:message for="hTaller" styleClass="ui-message-error-detail" />
                 </div>
@@ -218,8 +221,10 @@
                                  value="#{unidadBean.unidad.horasLaboratorio}"
                                  placeholder="0"
                                  required="true"
-                                 requiredMessage="Obligatorio">
-                        <f:validateLongRange minimum="0" maximum="4" />
+                                 requiredMessage="Obligatorio"
+                                 converterMessage="Ingresa un número (0-4)">
+                        <f:validateLongRange minimum="0" maximum="4"
+                                             message="El valor debe estar entre 0 y 4" />
                     </h:inputText>
                     <h:message for="hLab" styleClass="ui-message-error-detail" />
                 </div>
