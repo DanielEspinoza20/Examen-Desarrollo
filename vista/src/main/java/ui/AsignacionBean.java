@@ -1,7 +1,7 @@
 package ui;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
@@ -15,7 +15,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Named("asignacionBean")
-@SessionScoped
+@ViewScoped
 public class AsignacionBean implements Serializable {
 
     // ── NUEVO: todo el contenido ───────────────────────────────────────────────

@@ -117,7 +117,7 @@
             <span>Eliminar Asignación de Unidad</span>
         </div>
 
-        <!-- ── Búsqueda ── -->
+
         <div class="card search-card">
             <div class="card-label">Buscar asignación:</div>
 
@@ -157,7 +157,7 @@
 
                 <div class="horarios-grid">
 
-                    <!-- Clase -->
+
                     <div class="horario-block">
                         <div class="horario-title">Clase</div>
                         <h:panelGroup layout="block" id="infoClase"
@@ -172,7 +172,7 @@
                         </h:panelGroup>
                     </div>
 
-                    <!-- Taller -->
+
                     <div class="horario-block">
                         <div class="horario-title">Taller</div>
                         <h:panelGroup layout="block" id="infoTaller"
@@ -187,7 +187,7 @@
                         </h:panelGroup>
                     </div>
 
-                    <!-- Laboratorio -->
+
                     <div class="horario-block">
                         <div class="horario-title">Laboratorio</div>
                         <h:panelGroup layout="block" id="infoLab"
@@ -204,7 +204,7 @@
 
                 </div>
 
-                <!-- Botón único eliminar todo -->
+
                 <h:commandButton value="Eliminar toda la asignación"
                                  action="#{eliminarAsignacionBean.eliminarTodo}"
                                  styleClass="btn-eliminar-todo"
@@ -213,8 +213,9 @@
         </h:panelGroup>
 
         <h:commandButton value="Regresar"
-                         action="menuAsignacion?faces-redirect=true"
-                         styleClass="btn-regresar" />
+                         action="adminAsignar?faces-redirect=true"
+                         styleClass="btn-regresar"
+        immediate="true"/>
 
     </h:form>
 </h:body>

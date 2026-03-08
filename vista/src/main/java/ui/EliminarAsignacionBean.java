@@ -1,7 +1,7 @@
 package ui;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Named("eliminarAsignacionBean")
-@SessionScoped
+@ViewScoped
 public class EliminarAsignacionBean implements Serializable {
 
     private final FacadeAsignacion facade = new FacadeAsignacion();
@@ -26,15 +26,21 @@ public class EliminarAsignacionBean implements Serializable {
     private Integer idUnidadSel;
     private boolean asignacionEncontrada = false;
 
-    // IDs ordenados por id ASC: índice 0=Clase, 1=Taller, 2=Lab
+
     private Integer idAsignacionClase;
     private Integer idAsignacionTaller;
     private Integer idAsignacionLab;
 
-    // Datos para mostrar en pantalla
-    private String  diaClase;    private Integer inicioClase;   private Integer finClase;
-    private String  diaTaller;   private Integer inicioTaller;  private Integer finTaller;
-    private String  diaLab;      private Integer inicioLab;     private Integer finLab;
+
+    private String  diaClase;
+    private Integer inicioClase;
+    private Integer finClase;
+    private String  diaTaller;
+    private Integer inicioTaller;
+    private Integer finTaller;
+    private String  diaLab;
+    private Integer inicioLab;
+    private Integer finLab;
 
     @PostConstruct
     public void init() {
@@ -42,7 +48,7 @@ public class EliminarAsignacionBean implements Serializable {
         unidades   = facade.obtenerUnidades();
     }
 
-    // ── Buscar ────────────────────────────────────────────────────────────────
+
     public void buscar() {
         FacesContext ctx = FacesContext.getCurrentInstance();
         asignacionEncontrada = false;
@@ -67,7 +73,7 @@ public class EliminarAsignacionBean implements Serializable {
             return;
         }
 
-        // Limpiar
+
         idAsignacionClase = null; diaClase = null; inicioClase = null; finClase = null;
         idAsignacionTaller = null; diaTaller = null; inicioTaller = null; finTaller = null;
         idAsignacionLab = null; diaLab = null; inicioLab = null; finLab = null;
@@ -99,7 +105,7 @@ public class EliminarAsignacionBean implements Serializable {
                 "Éxito", "Asignación encontrada"));
     }
 
-    // ── Eliminar TODO (Clase + Taller + Lab) ──────────────────────────────────
+
     public void eliminarTodo() {
         FacesContext ctx = FacesContext.getCurrentInstance();
         int eliminados = 0;
@@ -124,29 +130,29 @@ public class EliminarAsignacionBean implements Serializable {
         }
     }
 
-    // ── Getters / Setters ──────────────────────────────────────────────────────
-    public List<Profesor>          getProfesores()          { return profesores; }
-    public List<UnidadAprendizaje> getUnidades()            { return unidades; }
-    public boolean                 isAsignacionEncontrada() { return asignacionEncontrada; }
 
-    public Integer getIdProfesorSel()         { return idProfesorSel; }
+    public List<Profesor>   getProfesores(){ return profesores; }
+    public List<UnidadAprendizaje> getUnidades(){ return unidades; }
+    public boolean    isAsignacionEncontrada() { return asignacionEncontrada; }
+
+    public Integer getIdProfesorSel(){ return idProfesorSel; }
     public void    setIdProfesorSel(Integer v) { this.idProfesorSel = v; }
-    public Integer getIdUnidadSel()           { return idUnidadSel; }
+    public Integer getIdUnidadSel(){ return idUnidadSel; }
     public void    setIdUnidadSel(Integer v)   { this.idUnidadSel = v; }
 
-    public Integer getIdAsignacionClase()     { return idAsignacionClase; }
-    public Integer getIdAsignacionTaller()    { return idAsignacionTaller; }
-    public Integer getIdAsignacionLab()       { return idAsignacionLab; }
+    public Integer getIdAsignacionClase(){ return idAsignacionClase; }
+    public Integer getIdAsignacionTaller(){ return idAsignacionTaller; }
+    public Integer getIdAsignacionLab(){ return idAsignacionLab; }
 
-    public String  getDiaClase()              { return diaClase; }
-    public Integer getInicioClase()           { return inicioClase; }
-    public Integer getFinClase()              { return finClase; }
+    public String  getDiaClase(){ return diaClase; }
+    public Integer getInicioClase(){ return inicioClase; }
+    public Integer getFinClase() { return finClase; }
 
-    public String  getDiaTaller()             { return diaTaller; }
-    public Integer getInicioTaller()          { return inicioTaller; }
-    public Integer getFinTaller()             { return finTaller; }
+    public String  getDiaTaller() { return diaTaller; }
+    public Integer getInicioTaller(){ return inicioTaller; }
+    public Integer getFinTaller() { return finTaller; }
 
-    public String  getDiaLab()               { return diaLab; }
-    public Integer getInicioLab()            { return inicioLab; }
-    public Integer getFinLab()               { return finLab; }
+    public String  getDiaLab() { return diaLab; }
+    public Integer getInicioLab() { return inicioLab; }
+    public Integer getFinLab() { return finLab; }
 }

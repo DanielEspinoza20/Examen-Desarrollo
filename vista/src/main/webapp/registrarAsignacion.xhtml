@@ -189,7 +189,7 @@
                                      styleClass="btn-asignar" />
                 </div>
 
-                <!-- Taller -->
+
                 <div class="horario-block">
                     <div class="horario-title">Taller</div>
                     <div class="form-group">
@@ -219,7 +219,7 @@
                                      styleClass="btn-asignar" />
                 </div>
 
-                <!-- Laboratorio -->
+
                 <div class="horario-block">
                     <div class="horario-title">Laboratorio</div>
                     <div class="form-group">
@@ -252,10 +252,11 @@
             </div>
         </div>
 
-        <!-- ── Regresar ── -->
+
         <h:commandButton value="Regresar"
-                         action="menu?faces-redirect=true"
-                         styleClass="btn-regresar" />
+                         action="adminAsignar?faces-redirect=true"
+                         styleClass="btn-regresar"
+                         immediate="true"/>
 
     </h:form>
 </h:body>

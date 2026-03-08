@@ -37,7 +37,7 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         }
     }
 
-    // ── NUEVO: asignaciones de un profesor ────────────────────────────────────
+
     public List<Asignacion> buscarPorProfesor(Profesor profesor) {
         EntityManager em = getEntityManager();
         try {
@@ -53,7 +53,7 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         }
     }
 
-    // ── NUEVO: lista de profesores para el select ─────────────────────────────
+
     public List<Profesor> obtenerProfesores() {
         EntityManager em = getEntityManager();
         try {
@@ -68,7 +68,7 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         }
     }
 
-    // ── NUEVO: lista de unidades para el select ───────────────────────────────
+
     public List<UnidadAprendizaje> obtenerUnidades() {
         EntityManager em = getEntityManager();
         try {
@@ -83,7 +83,7 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         }
     }
 
-    // ── NUEVO: buscar Profesor por id ─────────────────────────────────────────
+
     public Profesor buscarProfesor(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -93,7 +93,7 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         }
     }
 
-    // ── NUEVO: buscar UnidadAprendizaje por id ────────────────────────────────
+
     public UnidadAprendizaje buscarUnidad(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -104,7 +104,7 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
     }
 
 
-    //nuevos
+    //busca
     public List<Asignacion> buscarPorProfesorYUnidad(Profesor profesor, Integer idUnidad) {
         EntityManager em = getEntityManager();
         try {
@@ -149,7 +149,7 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         }
     }
 
-    // Verifica traslape excluyendo el registro que se está editando
+
     public boolean existeTraslapeExcluyendo(Profesor profesor, String diaSemana,
                                             LocalTime horaInicio, LocalTime horaFin,
                                             Integer idExcluir) {
@@ -180,7 +180,7 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         }
     }
 
-    // ── Traslape normal (para registrar) ──────────────────────────────────────
+    // ── Traslape normal (para registrar)
     public boolean existeTraslape(Profesor profesor, String diaSemana,
                                   LocalTime horaInicio, LocalTime horaFin) {
         for (Asignacion a : buscarPorProfesor(profesor)) {
