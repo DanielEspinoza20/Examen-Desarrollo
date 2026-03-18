@@ -1,0 +1,56 @@
+Querys de la Base de Datos. WorkBench:
+_________________________________________
+
+CREATE DATABASE IF NOT EXISTS sauap_db;
+USE sauap_db;
+
+CREATE TABLE Profesor (
+    id_profesor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido_paterno VARCHAR(50) NOT NULL,
+    apellido_materno VARCHAR(50) NOT NULL,
+    rfc VARCHAR(13) NOT NULL,
+    CONSTRAINT chk_rfc_format CHECK (rfc REGEXP '^[A-Z&Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}$')
+);
+
+CREATE TABLE Unidad_Aprendizaje (
+    id_unidad INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_unidad VARCHAR(50) NOT NULL,
+    horas_clase INT NOT NULL DEFAULT 0,
+    horas_taller INT NOT NULL DEFAULT 0,
+    horas_laboratorio INT NOT NULL DEFAULT 0,
+    CONSTRAINT chk_horas_clase CHECK (horas_clase BETWEEN 0 AND 4),
+    CONSTRAINT chk_horas_taller CHECK (horas_taller BETWEEN 0 AND 4),
+    CONSTRAINT chk_horas_lab CHECK (horas_laboratorio BETWEEN 0 AND 4)
+);
+
+CREATE TABLE Usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(30) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    rol ENUM('Administrador', 'Usuario') NOT NULL
+);
+
+CREATE TABLE Asignacion (
+    id_asignacion INT AUTO_INCREMENT PRIMARY KEY,
+    id_profesor INT NOT NULL,usuario
+    id_unidad INT NOT NULL,
+    dia_semana ENUM('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado') NOT NULL,
+    hora_inicio TIME NOT NULL,
+    hora_fin TIME NOT NULL,
+
+    FOREIGN KEY (id_profesor) REFERENCES Profesor(id_profesor) ON DELETE CASCADE,
+    FOREIGN KEY (id_unidad) REFERENCES Unidad_Aprendizaje(id_unidad) ON DELETE CASCADE,
+
+    UNIQUE (id_profesor, dia_semana, hora_inicio)
+);
+
+Query agregados:
+1.-
+ALTER TABLE sauap_db.asignacion MODIFY COLUMN dia_semana
+VARCHAR(50) NOT NULL; ALTER TABLE usuario MODIFY COLUMN rol
+VARCHAR(50); ALTER TABLE sauap_db.usuario MODIFY COLUMN rol
+VARCHAR(50) NOT NULL;
+
+2.-
+ALTER TABLE usuario ADD COLUMN rfc VARCHAR(13);
